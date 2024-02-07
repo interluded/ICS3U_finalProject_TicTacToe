@@ -8,13 +8,23 @@ public class tttGame extends JPanel implements MouseListener
     Image title;
     Image background;
     Image xImage;
-    Image OImage;
+    Image oImage;
     int screen = 1;
     int players;
 
+    boolean turn = true; //decides whos turn it is (true = 1) (false = 0)
 
-
-
+    //THIS IS ALL OF THE INTS FOR MAIN TABLE
+int a = 0;
+int b = 0;
+int c = 0;
+int d = 0;
+int e1 = 0;
+int f = 0;
+int g1 = 0;
+int h = 0;
+int i = 0;
+//END MAIN TABLE VARIABLES
 
 
     public tttGame(){
@@ -23,14 +33,14 @@ public class tttGame extends JPanel implements MouseListener
         try
         {
         title = ImageIO.read(new File("logo.png"));
+        background = ImageIO.read(new File( "bg.png"));
+        xImage = ImageIO.read(new File("earth.png"));
+        oImage = ImageIO.read(new File("jupiter.png"));
         }
-        catch (IOException e){}
+        catch (IOException e){
+            System.out.println("IMAGE NOT FOUND, MAKE SURE YOU HAVE  \" logo.png \", \"bg.png\", \"earth.png\", \", and \" jupiter.png\" ");
+        }
     }
-
-
-
-
-
 
     public void paint(Graphics g){
         if(screen == 1){
@@ -42,6 +52,7 @@ public class tttGame extends JPanel implements MouseListener
     }
 
     public void startScreen(Graphics g){
+        g.drawImage(background,0,0,null);
         g.drawImage(title,200,0,null);
 
         //draw 1p button
@@ -58,8 +69,33 @@ public class tttGame extends JPanel implements MouseListener
         g.drawString("2P START",610,655);
     }
     public void drawBoard(Graphics g){
-g.setColor(Color.RED);
-g.fillRect(0,0,900,900);
+
+        g.drawImage(background, 0,0,null);
+        g.setColor(Color.WHITE);
+        g.fillRect(298,0,4,900);
+        g.fillRect(598,0,4,900);
+        g.fillRect(0,298,900, 4);
+        g.fillRect(0, 598, 900, 4);
+
+
+        if (a==1){
+            g.drawImage(xImage,0,0,null);
+        }
+        else if (a ==2){
+            g.drawImage(oImage,0,0,null);
+        }
+
+
+        if(b == 1){
+            g.drawImage(xImage,302,0,null);
+        }
+        else if (b ==2){
+            g.drawImage(oImage,302,0,null);
+        }
+
+
+        //g.drawImage(xImage,0,0,null);
+        //g.drawImage(oImage,0,0,null);
     }
 
     public void mouseClicked(MouseEvent e){}
@@ -74,6 +110,38 @@ g.fillRect(0,0,900,900);
         players = 2;
            }
         }
+
+        else if(screen == 2)
+        {
+            if (x <=300 & y < 300 && a == 0){
+                // box a clicked
+                if(turn) {
+                    a = 1;
+                    turn = false;
+                }
+                else {
+                    a = 2;
+                    turn = true;
+                }
+            }
+        }
+
+
+        if(x>=300 && x <= 600 && y>=0 && y<=300 && b == 0){
+            if(turn) {
+                b = 1;
+                turn = false;
+            }
+            else {
+                b = 2;
+                turn = true;
+            }
+
+        }
+
+
+
+
     repaint();
     }
     public void mouseReleased(MouseEvent e){}
