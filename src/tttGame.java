@@ -77,7 +77,7 @@ int i = 0;
         g.fillRect(0,298,900, 4);
         g.fillRect(0, 598, 900, 4);
 
-
+// Spot #1
         if (a==1){
             g.drawImage(xImage,0,0,null);
         }
@@ -85,13 +85,67 @@ int i = 0;
             g.drawImage(oImage,0,0,null);
         }
 
-
+// Spot #2
         if(b == 1){
             g.drawImage(xImage,302,0,null);
         }
         else if (b ==2){
             g.drawImage(oImage,302,0,null);
         }
+        // Spot #3
+        if(c == 1){
+            g.drawImage(xImage,602,0,null);
+        }
+        else if (c ==2){
+            g.drawImage(oImage,602,0,null);
+        }
+// Spot 4
+        if(d == 1){
+            g.drawImage(xImage,0,300,null);
+        }
+        else if (d ==2){
+            g.drawImage(oImage,0,300,null);
+        }
+        //spot 5
+        if(e1 == 1){
+            g.drawImage(xImage,300,300,null);
+        }
+        else if (e1 ==2){
+            g.drawImage(oImage,300,300,null);
+        }
+//Spot 6
+        if(f == 1){
+            g.drawImage(xImage,600,300,null);
+        }
+        else if (f ==2){
+            g.drawImage(oImage,600,300,null);
+        }
+
+        //spot 7
+
+        if(g1 == 1){
+            g.drawImage(xImage,0,600,null);
+        }
+        else if (g1 ==2){
+            g.drawImage(oImage,0,600,null);
+        }
+//spot 8
+        if(h == 1){
+            g.drawImage(xImage,300,600,null);
+        }
+        else if (h ==2){
+            g.drawImage(oImage,300,600,null);
+        }
+
+        if(i == 1){
+            g.drawImage(xImage,600,600,null);
+        }
+        else if (i ==2){
+            g.drawImage(oImage,600,600,null);
+        }
+
+
+
 
 
         //g.drawImage(xImage,0,0,null);
@@ -99,45 +153,125 @@ int i = 0;
     }
 
     public void mouseClicked(MouseEvent e){}
-    public void mousePressed(MouseEvent e){
+    public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
         // on title screen
-        if(screen == 1) {
-           if(x >= 500 && x <=800 && y>= 600 && y <= 700){
-        System.out.println("DEBUG");
-        screen = 2;
-        players = 2;
-           }
-        }
-
-        else if(screen == 2)
-        {
-            if (x <=300 & y < 300 && a == 0){
+        if (screen == 1) {
+            if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+                System.out.println("DEBUG");
+                screen = 2;
+                players = 2;
+            }
+        } else if (screen == 2) {
+            if (x <= 300 & y < 300 && a == 0) {
                 // box a clicked
-                if(turn) {
+                if (turn) {
                     a = 1;
                     turn = false;
-                }
-                else {
+                } else {
                     a = 2;
                     turn = true;
                 }
             }
+
+
+            //box 2 clicked
+            if (x >= 300 && x <= 600 && y >= 0 && y <= 300 && b == 0) {
+                if (turn) {
+                    b = 1;
+                    turn = false;
+                } else {
+                    b = 2;
+                    turn = true;
+                }
+
+            }
+
+            //box 3 clicked
+            if (x >= 600 && x <= 900 && y >= 0 && y <= 300 && c == 0) {
+                if (turn) {
+                    c = 1;
+                    turn = false;
+                } else {
+                    c = 2;
+                    turn = true;
+                }
+
+            }
+            //box 4 clicked
+
+            if (x >= 0 && x <= 300 && y >= 300 && y <= 600 && d == 0) {
+                if (turn) {
+                    d = 1;
+                    turn = false;
+                } else {
+                    d = 2;
+                    turn = true;
+                }
+            }
+                //box 5 clicked
+                if (x >= 300 && x <= 600 && y >= 300 && y <= 600 && e1 == 0) {
+                    if (turn) {
+                        e1 = 1;
+                        turn = false;
+                    } else {
+                        e1 = 2;
+                        turn = true;
+                    }
+                }
+
+                //box 6 clicked
+            if (x >= 600 && x <= 900 && y >= 300 && y <= 600 && f == 0) {
+                if (turn) {
+                    f = 1;
+                    turn = false;
+                } else {
+                    f = 2;
+                    turn = true;
+                }
+            }
+        //spot 7 clicked
+            if (x >= 0 && x <= 300 && y >= 0 && y <= 900 && g1 == 0) {
+                if (turn) {
+                    g1 = 1;
+                    turn = false;
+                } else {
+                    g1 = 2;
+                    turn = true;
+
+
+                }
+            }
+
+            //spot8 clicked
+
+            if (x >= 300 && x <= 600 && y >= 0 && y <= 900 && h == 0) {
+                if (turn) {
+                    h = 1;
+                    turn = false;
+                } else {
+                    h = 2;
+                    turn = true;
+
+
+                }
+            }
+
+            if (x >= 600 && x <= 900 && y >= 0 && y <= 900 && h == 0) {
+                if (turn) {
+                    i = 1;
+                    turn = false;
+                } else {
+                    i = 2;
+                    turn = true;
+
+
+                }
+            }
         }
 
 
-        if(x>=300 && x <= 600 && y>=0 && y<=300 && b == 0){
-            if(turn) {
-                b = 1;
-                turn = false;
-            }
-            else {
-                b = 2;
-                turn = true;
-            }
-
-        }
 
 
 
