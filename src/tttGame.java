@@ -164,8 +164,8 @@ int i = 0;
                 players = 2;
             }
         } else if (screen == 2) {
-            if (x <= 300 & y < 300 && a == 0) {
-                // box a clicked
+            // Spot 1
+            if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
                     a = 1;
                     turn = false;
@@ -175,9 +175,8 @@ int i = 0;
                 }
             }
 
-
-            //box 2 clicked
-            if (x >= 300 && x <= 600 && y >= 0 && y <= 300 && b == 0) {
+            // Spot 2
+            if (x > 300 && x <= 600 && y <= 300 && b == 0) {
                 if (turn) {
                     b = 1;
                     turn = false;
@@ -185,11 +184,10 @@ int i = 0;
                     b = 2;
                     turn = true;
                 }
-
             }
 
-            //box 3 clicked
-            if (x >= 600 && x <= 900 && y >= 0 && y <= 300 && c == 0) {
+            // Spot 3
+            if (x > 600 && y <= 300 && c == 0) {
                 if (turn) {
                     c = 1;
                     turn = false;
@@ -197,11 +195,10 @@ int i = 0;
                     c = 2;
                     turn = true;
                 }
-
             }
-            //box 4 clicked
 
-            if (x >= 0 && x <= 300 && y >= 300 && y <= 600 && d == 0) {
+            // Spot 4
+            if (x <= 300 && y > 300 && y <= 600 && d == 0) {
                 if (turn) {
                     d = 1;
                     turn = false;
@@ -210,19 +207,20 @@ int i = 0;
                     turn = true;
                 }
             }
-                //box 5 clicked
-                if (x >= 300 && x <= 600 && y >= 300 && y <= 600 && e1 == 0) {
-                    if (turn) {
-                        e1 = 1;
-                        turn = false;
-                    } else {
-                        e1 = 2;
-                        turn = true;
-                    }
-                }
 
-                //box 6 clicked
-            if (x >= 600 && x <= 900 && y >= 300 && y <= 600 && f == 0) {
+            // Spot 5
+            if (x > 300 && x <= 600 && y > 300 && y <= 600 && e1 == 0) {
+                if (turn) {
+                    e1 = 1;
+                    turn = false;
+                } else {
+                    e1 = 2;
+                    turn = true;
+                }
+            }
+
+            // Spot 6
+            if (x > 600 && y > 300 && y <= 600 && f == 0) {
                 if (turn) {
                     f = 1;
                     turn = false;
@@ -231,42 +229,37 @@ int i = 0;
                     turn = true;
                 }
             }
-        //spot 7 clicked
-            if (x >= 0 && x <= 300 && y >= 0 && y <= 900 && g1 == 0) {
+
+            // Spot 7
+            if (x <= 300 && y > 600 && g1 == 0) {
                 if (turn) {
                     g1 = 1;
                     turn = false;
                 } else {
                     g1 = 2;
                     turn = true;
-
-
                 }
             }
 
-            //spot8 clicked
-
-            if (x >= 300 && x <= 600 && y >= 0 && y <= 900 && h == 0) {
+            // Spot 8
+            if (x > 300 && x <= 600 && y > 600 && h == 0) {
                 if (turn) {
                     h = 1;
                     turn = false;
                 } else {
                     h = 2;
                     turn = true;
-
-
                 }
             }
 
-            if (x >= 600 && x <= 900 && y >= 0 && y <= 900 && h == 0) {
+            // Spot 9
+            if (x > 600 && y > 600 && i == 0) {
                 if (turn) {
                     i = 1;
                     turn = false;
                 } else {
                     i = 2;
                     turn = true;
-
-
                 }
             }
         }
