@@ -144,12 +144,68 @@ int i = 0;
             g.drawImage(oImage,600,600,null);
         }
 
-
-
-
-
+        checkWinner();
         //g.drawImage(xImage,0,0,null);
         //g.drawImage(oImage,0,0,null);
+    }
+
+    public void checkWinner(){
+        // P1 Wins: Earth
+        if (a == 1 && b == 1 && c == 1)
+            screen = 3;
+
+        else if (d == 1 && e1 == 1 && f == 1 )
+            screen = 3;
+
+        else if (g1 == 1 && h == 1 && i == 1 )
+            screen = 3;
+
+        else if (g1 == 1 && e1 == 1 && c == 1 )
+            screen = 3;
+
+        else if (a == 1 && e1 == 1 && i == 1 )
+            screen = 3;
+
+        else if (a == 1 && d == 1 && g1 == 1 )
+            screen = 3;
+
+        else if (b == 1 && e1 == 1 && h == 1 )
+            screen = 3;
+
+        else if (c == 1 && f == 1 && i == 1 )
+            screen = 3;
+
+        // END P1 Win Statements
+
+        //P2 WINS: JUPITER
+        if (a == 2 && b == 2 && c == 2)
+            screen = 4;
+
+        else if (d == 2 && e1 == 2 && f == 2 )
+            screen = 4;
+
+        else if (g1 == 2 && h == 2 && i == 2 )
+            screen = 4;
+
+        else if (g1 == 2 && e1 == 2 && c == 2 )
+            screen = 4;
+
+        else if (a == 2 && e1 == 2 && i == 2 )
+            screen = 4;
+
+        else if (a == 2 && d == 2 && g1 == 2 )
+            screen = 4;
+
+        else if (b == 2 && e1 == 2 && h == 2 )
+            screen = 4;
+
+        else if (c == 2 && f == 2 && i == 2 )
+            screen = 4;
+        // END P2 WIN STATEMENTS
+
+
+
+
     }
 
     public void mouseClicked(MouseEvent e){}
@@ -263,12 +319,6 @@ int i = 0;
                 }
             }
         }
-
-
-
-
-
-
     repaint();
     }
     public void mouseReleased(MouseEvent e){}
