@@ -9,7 +9,6 @@ public class Main {
         frame.setTitle("Tic Tac Woah, by marcus ics3u");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         tttGame game = new tttGame();
         frame.add(game);
         frame.setVisible(true);

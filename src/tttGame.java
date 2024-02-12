@@ -11,19 +11,23 @@ public class tttGame extends JPanel implements MouseListener
     Image oImage;
     int screen = 1;
     int players;
+    Image tieImage;
+    Image p1Win;
+    Image p2Win;
+
 
     boolean turn = true; //decides whos turn it is (true = 1) (false = 0)
 
     //THIS IS ALL OF THE INTS FOR MAIN TABLE
-int a = 0;
-int b = 0;
-int c = 0;
-int d = 0;
-int e1 = 0;
-int f = 0;
-int g1 = 0;
-int h = 0;
-int i = 0;
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    int d = 0;
+    int e1 = 0;
+    int f = 0;
+    int g1 = 0;
+    int h = 0;
+    int i = 0;
 //END MAIN TABLE VARIABLES
 
 
@@ -32,10 +36,13 @@ int i = 0;
         // Loads Images
         try
         {
-        title = ImageIO.read(new File("logo.png"));
-        background = ImageIO.read(new File( "bg.png"));
-        xImage = ImageIO.read(new File("earth.png"));
-        oImage = ImageIO.read(new File("jupiter.png"));
+            title = ImageIO.read(new File("logo.png"));
+            background = ImageIO.read(new File( "bg.png"));
+            xImage = ImageIO.read(new File("earth.png"));
+            oImage = ImageIO.read(new File("jupiter.png"));
+            p1Win = ImageIO.read(new File("winner.png"));
+            p2Win = ImageIO.read(new File("winner2.png"));
+            tieImage = ImageIO.read(new File("tieGame.png"));
         }
         catch (IOException e){
             System.out.println("IMAGE NOT FOUND, MAKE SURE YOU HAVE  \" logo.png \", \"bg.png\", \"earth.png\", \", and \" jupiter.png\" ");
@@ -46,8 +53,17 @@ int i = 0;
         if(screen == 1){
             startScreen(g);
         }
-        else if (screen== 2){
-        drawBoard(g);
+        else if (screen == 2){
+            drawBoard(g);
+        }
+        else if (screen == 3){
+            drawP1Win(g);
+        }
+        else if (screen == 4){
+            drawP2Win(g);
+        }
+        else if (screen == 5){
+            drawTieGame(g);
         }
     }
 
@@ -204,6 +220,14 @@ int i = 0;
         // END P2 WIN STATEMENTS
 
 
+        //BEGIN TIE STATEMENTS
+
+        if (screen != 3 && screen != 4) {
+            if (a != 0 && b != 0 && c != 0 && d != 0 && e1 != 0 && f != 0 && g1 != 0 && h != 0 && i != 0) // All spots filled but no winner located. TIE.
+            {
+                screen = 5;
+            }
+        }
 
 
     }
@@ -319,9 +343,20 @@ int i = 0;
                 }
             }
         }
-    repaint();
+        repaint();
     }
     public void mouseReleased(MouseEvent e){}
     public void mouseEntered(MouseEvent e){}
     public void mouseExited(MouseEvent e){}
+
+    public void drawP1Win(Graphics g){
+        g.drawImage(p1Win, 0,0,null);
+    }
+    public void drawP2Win(Graphics g){
+        g.drawImage(p2Win, 0,0,null);
+    }
+
+    public void drawTieGame(Graphics g){
+        g.drawImage(tieImage, 0,0,null);
+    }
 }
