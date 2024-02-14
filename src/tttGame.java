@@ -20,7 +20,7 @@ public class tttGame extends JPanel implements MouseListener
 
     //THIS IS ALL OF THE INTS FOR MAIN TABLE
     int a = 0;
-    int b = 0;
+    int b =     0;
     int c = 0;
     int d = 0;
     int e1 = 0;
@@ -34,10 +34,9 @@ public class tttGame extends JPanel implements MouseListener
     public tttGame(){
         addMouseListener(this);
         // Loads Images
-        try
-        {
+        try {
             title = ImageIO.read(new File("logo.png"));
-            background = ImageIO.read(new File( "bg.png"));
+            background = ImageIO.read(new File("bg.png"));
             xImage = ImageIO.read(new File("earth.png"));
             oImage = ImageIO.read(new File("jupiter.png"));
             p1Win = ImageIO.read(new File("winner.png"));
@@ -47,6 +46,7 @@ public class tttGame extends JPanel implements MouseListener
         catch (IOException e){
             System.out.println("IMAGE NOT FOUND, MAKE SURE YOU HAVE  \" logo.png \", \"bg.png\", \"earth.png\", \", and \" jupiter.png\" ");
         }
+
     }
 
     public void paint(Graphics g){
@@ -239,7 +239,6 @@ public class tttGame extends JPanel implements MouseListener
         // on title screen
         if (screen == 1) {
             if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
-                System.out.println("DEBUG");
                 screen = 2;
                 players = 2;
             }
