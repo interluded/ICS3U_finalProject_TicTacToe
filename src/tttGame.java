@@ -237,12 +237,17 @@ public class tttGame extends JPanel implements MouseListener
         int x = e.getX();
         int y = e.getY();
         // on title screen
-        if (screen == 1) {
+        if (screen == 1){
+            if(x>=100 && x<=400 && y>=600 && y <= 700){
+                screen = 2;
+                players = 1;
+            }
             if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
                 screen = 2;
                 players = 2;
             }
-        } else if (screen == 2) {
+        }
+        else if (screen == 2 && players == 2) {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
@@ -342,6 +347,155 @@ public class tttGame extends JPanel implements MouseListener
                 }
             }
         }
+        else if (screen == 2 && players == 1) // one player game
+        {
+            // Spot 1
+            if (x <= 300 && y <= 300 && a == 0) {
+                if (turn) {
+                    a = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 2
+            if (x > 300 && x <= 600 && y <= 300 && b == 0) {
+                if (turn) {
+                    b = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 3
+            if (x > 600 && y <= 300 && c == 0) {
+                if (turn) {
+                    c = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 4
+            if (x <= 300 && y > 300 && y <= 600 && d == 0) {
+                if (turn) {
+                    d = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 5
+            if (x > 300 && x <= 600 && y > 300 && y <= 600 && e1 == 0) {
+                if (turn) {
+                    e1 = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 6
+            if (x > 600 && y > 300 && y <= 600 && f == 0) {
+                if (turn) {
+                    f = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 7
+            if (x <= 300 && y > 600 && g1 == 0) {
+                if (turn) {
+                    g1 = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 8
+            if (x > 300 && x <= 600 && y > 600 && h == 0) {
+                if (turn) {
+                    h = 1;
+                    turn = false;
+                }
+            }
+
+            // Spot 9
+            if (x > 600 && y > 600 && i == 0) {
+                if (turn) {
+                    i = 1;
+                    turn = false;
+                }
+            }
+        }
+        repaint();
+
+        if(players == 1 )
+            if(a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
+        computerMove();
+    }
+    public void computerMove()
+    {
+        if (a == 2 && b == 2 && c == 0) { c = 2; }
+        else if (a == 2 && c == 2 && b == 0) { b = 2; }
+        else if (b == 2 && c == 2 && a == 0) { a = 2; }
+        else if (d == 2 && e1 == 2 && f == 0) { f = 2; }
+        else if (d == 2 && f == 2 && e1 == 0) { e1 = 2; }
+        else if (e1 == 2 && f == 2 && d == 0) { d = 2; }
+        else if (g1 == 2 && h == 2 && i == 0) { i = 2; }
+        else if (g1 == 2 && i == 2 && h == 0) { h = 2; }
+        else if (h == 2 && i == 2 && g1 == 0) { g1 = 2; }
+        else if (a == 2 && d == 2 && g1 == 0) { g1 = 2; }
+        else if (a == 2 && g1 == 2 && d == 0) { d = 2; }
+        else if (d == 2 && g1 == 2 && a == 0) { a = 2; }
+        else if (b == 2 && e1 == 2 && h == 0) { h = 2; }
+        else if (b == 2 && h == 2 && e1 == 0) { e1 = 2; }
+        else if (e1 == 2 && h == 2 && b == 0) { b = 2; }
+        else if (c == 2 && f == 2 && i == 0) { i = 2; }
+        else if (c == 2 && i == 2 && f == 0) { f = 2; }
+        else if (f == 2 && i == 2 && c == 0) { c = 2; }
+        else if (a == 2 && e1 == 2 && i == 0) { i = 2; }
+        else if (a == 2 && i == 2 && e1 == 0) { e1 = 2; }
+        else if (e1 == 2 && i == 2 && a == 0) { a = 2; }
+        else if (g1 == 2 && e1 == 2 && c == 0) { c = 2; }
+        else if (g1 == 2 && c == 2 && e1 == 0) { e1 = 2; }
+        else if (e1 == 2 && c == 2 && g1 == 0) { g1 = 2; }
+
+        // blocks
+        else if (a == 1 && b == 1 && c == 0) { c = 2; }
+        else if (a == 1 && c == 1 && b == 0) { b = 2; }
+        else if (b == 1 && c == 1 && a == 0) { a = 2; }
+        else if (d == 1 && e1 == 1 && f == 0) { f = 2; }
+        else if (d == 1 && f == 1 && e1 == 0) { e1 = 2; }
+        else if (e1 == 1 && f == 1 && d == 0) { d = 2; }
+        else if (g1 == 1 && h == 1 && i == 0) { i = 2; }
+        else if (g1 == 1 && i == 1 && h == 0) { h = 2; }
+        else if (h == 1 && i == 1 && g1 == 0) { g1 = 2; }
+        else if (a == 1 && d == 1 && g1 == 0) { g1 = 2; }
+        else if (a == 1 && g1 == 1 && d == 0) { d = 2; }
+        else if (d == 1 && g1 == 1 && a == 0) { a = 2; }
+        else if (b == 1 && e1 == 1 && h == 0) { h = 2; }
+        else if (b == 1 && h == 1 && e1 == 0) { e1 = 2; }
+        else if (e1 == 1 && h == 1 && b == 0) { b = 2; }
+        else if (c == 1 && f == 1 && i == 0) { i = 2; }
+        else if (c == 1 && i == 1 && f == 0) { f = 2; }
+        else if (f == 1 && i == 1 && c == 0) { c = 2; }
+        else if (a == 1 && e1 == 1 && i == 0) { i = 2; }
+        else if (a == 1 && i == 1 && e1 == 0) { e1 = 2; }
+        else if (e1 == 1 && i == 1 && a == 0) { a = 2; }
+        else if (g1 == 1 && e1 == 1 && c == 0) { c = 2; }
+        else if (g1 == 1 && c == 1 && e1 == 0) { e1 = 2; }
+        else if (e1 == 1 && c == 1 && g1 == 0) { g1 = 2; }
+
+        // go center
+        else if (e1 == 0) { e1 = 2; }
+
+        // corners
+        else if (a == 0) { a = 2; }
+        else if (c == 0) { c = 2; }
+        else if (g1 == 0) { g1 = 2; }
+        else if (i == 0) { i = 2; }
+
+        // sides
+        else if (b == 0) { b = 2; }
+        else if (d == 0) { d = 2; }
+        else if (f == 0) { f = 2; }
+        else if (h == 0) { h = 2; }
+
+        turn = true;
         repaint();
     }
     public void mouseReleased(MouseEvent e){}
