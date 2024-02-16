@@ -3,8 +3,16 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
-public class tttGame extends JPanel implements MouseListener
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+
+public class  tttGame extends JPanel implements MouseListener
 {
+
     Image title;
     Image background;
     Image xImage;
@@ -14,6 +22,8 @@ public class tttGame extends JPanel implements MouseListener
     Image tieImage;
     Image p1Win;
     Image p2Win;
+
+    Clip clip;
 
 
     boolean turn = true; //decides whos turn it is (true = 1) (false = 0)
@@ -33,6 +43,27 @@ public class tttGame extends JPanel implements MouseListener
 
     public tttGame(){
         addMouseListener(this);
+
+
+        JButton toggleMusicButton;
+        setLayout(null);
+
+        toggleMusicButton = new JButton("Toggle Music");
+        toggleMusicButton.setBounds(10, 10, 120, 30); // Position the button in the top left corner
+        add(toggleMusicButton);
+
+        toggleMusicButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (clip.isRunning()) {
+                    clip.stop(); // Stop the music if it's playing
+                } else {
+                    clip.start(); // Start the music if it's not playing
+                    clip.loop(Clip.LOOP_CONTINUOUSLY); //looper
+                }
+            }
+        });
+
+
         // Loads Images
         try {
             title = ImageIO.read(new File("logo.png"));
@@ -47,8 +78,25 @@ public class tttGame extends JPanel implements MouseListener
             System.out.println("IMAGE NOT FOUND, MAKE SURE YOU HAVE  \" logo.png \", \"bg.png\", \"earth.png\", \", and \" jupiter.png\" ");
         }
 
-    }
 
+        //below code snippet found from StackOverFlow
+        try {
+
+            File soundFile = new File("gff.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            clip = AudioSystem.getClip();
+
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+    //End Code snippet from StackOverFlow
     public void paint(Graphics g){
         if(screen == 1){
             startScreen(g);
@@ -425,7 +473,7 @@ public class tttGame extends JPanel implements MouseListener
 
         if(players == 1 )
             if(a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
-        computerMove();
+                computerMove();
     }
     public void computerMove()
     {
