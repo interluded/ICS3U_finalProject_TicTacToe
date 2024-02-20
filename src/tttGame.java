@@ -8,8 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-
+@SuppressWarnings("CallToPrintStackTrace")
 public class tttGame extends JPanel implements MouseListener {
 
     Image title;
@@ -25,9 +24,9 @@ public class tttGame extends JPanel implements MouseListener {
     Clip clip;
 
 
-    boolean turn = true; //decides whos turn it is (true = 1) (false = 0)
+    boolean turn = true; //decides who's turn it is (true = 1) (false = 0)
 
-    //THIS IS ALL OF THE INTS FOR MAIN TABLE
+    //THIS IS ALL THE INTS FOR MAIN TABLE
     int a = 0;
     int b = 0;
     int c = 0;
@@ -40,6 +39,7 @@ public class tttGame extends JPanel implements MouseListener {
     //END MAIN TABLE VARIABLES
 
 
+    @SuppressWarnings("Convert2Lambda")
     public tttGame() {
         addMouseListener(this);
 
@@ -87,10 +87,13 @@ public class tttGame extends JPanel implements MouseListener {
             clip.open(audioIn);
             clip.start();
         } catch (UnsupportedAudioFileException e) {
+            System.out.println("Unsupported audio file found. use a WAV file.");
             e.printStackTrace();
         } catch (IOException e) {
+            System.out.println("Cannot Find any Audio file. named \"gff.wav\"");
             e.printStackTrace();
         } catch (LineUnavailableException e) {
+            System.out.println("LineUnavailableException.");
             e.printStackTrace();
         }
     }
@@ -98,6 +101,7 @@ public class tttGame extends JPanel implements MouseListener {
     public void paint(Graphics g) {
         if (screen == 1) {
             startScreen(g);
+            musicButton(g);
         } else if (screen == 2) {
             drawBoard(g);
         } else if (screen == 3) {
@@ -110,6 +114,11 @@ public class tttGame extends JPanel implements MouseListener {
 
     }
 
+    public void musicButton(Graphics g){
+        g.fillRect(0, 0, 80, 30);
+        g.setColor(Color.BLACK);
+        g.drawString("Toggle Music", 0, 20);
+    }
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 200, 0, null);
