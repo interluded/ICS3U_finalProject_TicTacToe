@@ -113,6 +113,7 @@ public class  tttGame extends JPanel implements MouseListener
         else if (screen == 5){
             drawTieGame(g);
         }
+
     }
 
     public void startScreen(Graphics g){
@@ -284,6 +285,18 @@ public class  tttGame extends JPanel implements MouseListener
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
+
+        // back to title screen button logic enhancement
+        if (screen == 3 || screen == 4 || screen == 5) {
+            if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+                resetGame();
+                screen = 1; // Go back to start screen
+                repaint();
+                return; // Exit the method to avoid further processing
+            }
+        }
+
+
         // on title screen
         if (screen == 1){
             if(x>=100 && x<=400 && y>=600 && y <= 700){
@@ -475,6 +488,13 @@ public class  tttGame extends JPanel implements MouseListener
             if(a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
                 computerMove();
     }
+
+    private void resetGame() {
+        // Resetting game state for a new game
+        a = b = c = d = e1 = f = g1 = h = i = 0;
+        turn = true; // Reset turn to player 1
+    }
+
     public void computerMove()
     {
         if (a == 2 && b == 2 && c == 0) { c = 2; }
@@ -552,12 +572,27 @@ public class  tttGame extends JPanel implements MouseListener
 
     public void drawP1Win(Graphics g){
         g.drawImage(p1Win, 0,0,null);
+        //draw back button
+        g.setColor(Color.RED);
+        g.fillRect(500,600,300,100);
+        g.setColor(Color.WHITE);
+        g.drawString("Back",610,655);
     }
     public void drawP2Win(Graphics g){
         g.drawImage(p2Win, 0,0,null);
+        //draw back button
+        g.setColor(Color.RED);
+        g.fillRect(500,600,300,100);
+        g.setColor(Color.WHITE);
+        g.drawString("Back",610,655);
     }
 
     public void drawTieGame(Graphics g){
         g.drawImage(tieImage, 0,0,null);
+        //draw back button
+        g.setColor(Color.RED);
+        g.fillRect(500,600,300,100);
+        g.setColor(Color.WHITE);
+        g.drawString("Back",610,655);
     }
 }
