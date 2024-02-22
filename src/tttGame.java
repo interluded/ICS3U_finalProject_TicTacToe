@@ -300,7 +300,7 @@ public class tttGame extends JPanel implements MouseListener {
 
         // back to title screen button logic enhancement
         if (screen == 3 || screen == 4 || screen == 5) {
-            if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+            if (x >= 600 && x <= 700 && y >= 100 && y <= 150) {
                 resetGame();
                 screen = 1; // Go back to start screen
                 repaint();
@@ -658,25 +658,25 @@ public class tttGame extends JPanel implements MouseListener {
         g.drawImage(p1Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRect(600, 100, 100, 50);
         g.setColor(Color.WHITE);
-        g.drawString("Back", 610, 655);
+        g.drawString("Back", 620, 120);
     }
     public void drawP2Win(Graphics g) {
         g.drawImage(p2Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRect(600, 100, 100, 50);
         g.setColor(Color.WHITE);
-        g.drawString("Back", 610, 655);
+        g.drawString("Back", 620, 120);
     }
 
     public void drawTieGame(Graphics g) {
         g.drawImage(tieImage, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRect(600, 100, 100, 50);
         g.setColor(Color.WHITE);
-        g.drawString("Back", 610, 655);
+        g.drawString("Back", 620, 120);
     }
 }
