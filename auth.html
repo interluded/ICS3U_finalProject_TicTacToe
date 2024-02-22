@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Display</title>
+    <script>
+        window.onload = function() {
+            let code = "KEY_";
+
+            for (let i = 5; i <= 12; i++) {
+                if (i === 6 || i === 8 || i === 12) continue;
+                code += randomAlphanumeric();
+            }
+
+            let numbers = generateThreeNumbersSumTo16();
+
+            code = code.slice(0, 5) + numbers[0] + code.slice(5, 7) + numbers[1] + code.slice(7, 11) + numbers[2];
+
+            document.body.innerText = code;
+        }
+
+        function randomAlphanumeric() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            return chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        function generateThreeNumbersSumTo16() {
+            let a, b, c;
+            do {
+                a = Math.floor(Math.random() * 9) + 1; // 1-9
+                b = Math.floor(Math.random() * 9) + 1; // 1-9
+                c = 16 - (a + b);
+            } while (c > 9 || c < 1);
+            return [a, b, c];
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>
