@@ -8,7 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-@SuppressWarnings("CallToPrintStackTrace")
+@SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
 
     Image title;
@@ -39,7 +39,6 @@ public class tttGame extends JPanel implements MouseListener {
     //END MAIN TABLE VARIABLES
 
 
-    @SuppressWarnings("Convert2Lambda")
     public tttGame() {
         addMouseListener(this);
 
@@ -111,9 +110,28 @@ public class tttGame extends JPanel implements MouseListener {
         } else if (screen == 5) {
             drawTieGame(g);
         }
+        else if(screen == 6){
+            drawSelectPlayer(g);
+        }
 
     }
+    public void drawSelectPlayer(Graphics g) {
+        g.drawImage(background, 0, 0, null);
+        g.drawImage(title, 200, 0, null);
 
+        //draw 1p button
+        g.setColor(Color.blue);
+        g.fillRect(100, 600, 300, 100);
+        g.setColor(Color.WHITE);
+        g.drawString("Earth (P1)", 210, 655);
+
+
+        //draw 2p button
+        g.setColor(Color.RED);
+        g.fillRect(500, 600, 300, 100);
+        g.setColor(Color.WHITE);
+        g.drawString("Jupiter (P2)", 610, 655);
+    }
     public void musicButton(Graphics g){
         g.fillRect(0, 0, 80, 30);
         g.setColor(Color.BLACK);
@@ -282,7 +300,7 @@ public class tttGame extends JPanel implements MouseListener {
 
         // back to title screen button logic enhancement
         if (screen == 3 || screen == 4 || screen == 5) {
-            if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+            if (x >= 600 && x <= 700 && y >= 100 && y <= 150) {
                 resetGame();
                 screen = 1; // Go back to start screen
                 repaint();
@@ -291,17 +309,30 @@ public class tttGame extends JPanel implements MouseListener {
         }
 
 
-        // on title screen
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
-                screen = 2;
+                screen = 6;
                 players = 1;
-            }
-            if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
-                screen = 2;
+            } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+                screen = 6;
                 players = 2;
+
             }
-        } else if (screen == 2 && players == 2) {
+
+        } else if (screen == 6) { // Player select screen
+            if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
+                screen = 2;
+            } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+                try {
+                    xImage = ImageIO.read(new File("jupiter.png"));
+                    oImage = ImageIO.read(new File("earth.png"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                screen = 2;
+            }
+            }
+         else if (screen == 2 && players == 2) {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
@@ -627,25 +658,25 @@ public class tttGame extends JPanel implements MouseListener {
         g.drawImage(p1Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRect(600, 100, 100, 50);
         g.setColor(Color.WHITE);
-        g.drawString("Back", 610, 655);
+        g.drawString("Back", 620, 120);
     }
     public void drawP2Win(Graphics g) {
         g.drawImage(p2Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRect(600, 100, 100, 50);
         g.setColor(Color.WHITE);
-        g.drawString("Back", 610, 655);
+        g.drawString("Back", 620, 120);
     }
 
     public void drawTieGame(Graphics g) {
         g.drawImage(tieImage, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRect(600, 100, 100, 50);
         g.setColor(Color.WHITE);
-        g.drawString("Back", 610, 655);
+        g.drawString("Back", 620, 120);
     }
 }
