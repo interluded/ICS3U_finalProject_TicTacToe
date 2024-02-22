@@ -39,7 +39,6 @@ public class tttGame extends JPanel implements MouseListener {
     //END MAIN TABLE VARIABLES
 
 
-    @SuppressWarnings("Convert2Lambda")
     public tttGame() {
         addMouseListener(this);
 
@@ -111,9 +110,28 @@ public class tttGame extends JPanel implements MouseListener {
         } else if (screen == 5) {
             drawTieGame(g);
         }
+        else if(screen == 6){
+            drawSelectPlayer(g);
+        }
 
     }
+    public void drawSelectPlayer(Graphics g) {
+        g.drawImage(background, 0, 0, null);
+        g.drawImage(title, 200, 0, null);
 
+        //draw 1p button
+        g.setColor(Color.blue);
+        g.fillRect(100, 600, 300, 100);
+        g.setColor(Color.WHITE);
+        g.drawString("Earth (P1)", 210, 655);
+
+
+        //draw 2p button
+        g.setColor(Color.RED);
+        g.fillRect(500, 600, 300, 100);
+        g.setColor(Color.WHITE);
+        g.drawString("Jupiter (P2)", 610, 655);
+    }
     public void musicButton(Graphics g){
         g.fillRect(0, 0, 80, 30);
         g.setColor(Color.BLACK);
@@ -291,17 +309,30 @@ public class tttGame extends JPanel implements MouseListener {
         }
 
 
-        // on title screen
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
-                screen = 2;
+                screen = 6;
                 players = 1;
-            }
-            if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
-                screen = 2;
+            } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+                screen = 6;
                 players = 2;
+
             }
-        } else if (screen == 2 && players == 2) {
+
+        } else if (screen == 6) { // Player select screen
+            if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
+                screen = 2;
+            } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+                try {
+                    xImage = ImageIO.read(new File("jupiter.png"));
+                    oImage = ImageIO.read(new File("earth.png"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                screen = 2;
+            }
+            }
+         else if (screen == 2 && players == 2) {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
