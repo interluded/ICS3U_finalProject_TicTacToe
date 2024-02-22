@@ -8,7 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-@SuppressWarnings("CallToPrintStackTrace")
+@SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
 
     Image title;
