@@ -6,15 +6,21 @@ import java.net.URISyntaxException;
 import java.util.Scanner;
 
 
+@SuppressWarnings({"CallToPrintStackTrace", "deprecation", "ConstantValue"})
 public class Main {
     public static void main(String[] args) {
+        boolean keyGenAsk = false;
         Scanner scan = new Scanner(System.in);
         String url = "https://indevelopment4.com";
-        System.out.println("Key needed for authentication");
-        boolean wantKey = scan.nextBoolean();
-        scan.nextLine();
+        System.out.println("Key needed for authentication, Generate? (Y/N)");
+        String wantKey = scan.nextLine();
+        if(wantKey.equalsIgnoreCase("Y"))
+        keyGenAsk = true;
+        else{
+            System.exit(0);
+        }
         boolean auth = false;
-        if (wantKey) {
+        if (keyGenAsk) {
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 try {
@@ -44,7 +50,7 @@ public class Main {
 
                 double VuEabaAi23 = num1 + num2 + num3;
                 double aASm2U = VuEabaAi23 / 2;
-                if (key.length() == 12 && key.substring(0, 4).equals("KEY_") && aASm2U == 8) {
+                if (key.length() == 12 && key.startsWith("KEY_") && aASm2U == 8) {
                     auth = true;
                     System.out.println("You have been authenticated.");
                 }
