@@ -8,5 +8,3 @@ Please use the bundled netcat executable, OR use one that uses "nc -lvnp 4444" f
 
 ## Libraries:
 Netcat 1.12 (nc64.exe) from: http://eternallybored.org/misc/netcat/
-
-
