@@ -10,8 +10,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         boolean keyGenAsk = false;
+        int hoster = 0;
+        boolean hosterisValid = false;
+        boolean auth = false;
+        String linodeHost = "https://marclmao.site";
+        String gCloudHost = "https://interluded.tech";
+        String budWareHost = "https://indevelopment4.com";
+        String url = "";
         Scanner scan = new Scanner(System.in);
-        String url = "https://indevelopment4.com";
         System.out.println("Key needed for authentication, Generate? (Y/N)");
         String wantKey = scan.nextLine();
         if(wantKey.equalsIgnoreCase("Y"))
@@ -19,8 +25,28 @@ public class Main {
         else{
             System.exit(0);
         }
-        boolean auth = false;
+
+
         if (keyGenAsk) {
+            System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host: ");
+            hoster = scan.nextInt();
+            scan.nextLine();
+
+            while(!hosterisValid) {
+                if (hoster == 1) {
+                    url = linodeHost;
+                    hosterisValid = true;
+                } else if (hoster == 2) {
+                    url = gCloudHost;
+                    hosterisValid = true;
+                } else if (hoster == 3) {
+                    url = budWareHost;
+                    hosterisValid = true;
+                } else {
+                    System.out.println("No valid option was submitted");
+                    System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host: ");}
+            }
+
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 try {
@@ -65,6 +91,7 @@ public class Main {
             tttGame game = new tttGame();
             frame.add(game);
             frame.setVisible(true);
+
         }
         else{
             System.out.println("Not authenticated");
