@@ -1,4 +1,3 @@
 ## There is an auth system with this build, basic asf but it works
-Generate a key by typing true on make key
-Itll open a browser that points to https://indevelopment4.com
+type y on want key, then 1,2,3,4 depending on your options.
 copy paste code into cmd window then it should launch the game if the code is valid.
