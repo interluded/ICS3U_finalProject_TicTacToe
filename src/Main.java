@@ -6,13 +6,14 @@ import java.net.URISyntaxException;
 import java.util.Scanner;
 
 
-@SuppressWarnings({"CallToPrintStackTrace", "deprecation", "ConstantValue"})
+@SuppressWarnings({ "CallToPrintStackTrace", "deprecation" ,"ConstantValue" })
 public class Main {
     public static void main(String[] args) {
         boolean keyGenAsk = false;
-        int hoster = 0;
+        int hoster;
         boolean hosterisValid = false;
         boolean auth = false;
+        boolean doBrowser = true;
         String linodeHost = "https://marclmao.site";
         String gCloudHost = "https://interluded.tech";
         String budWareHost = "https://indevelopment4.com";
@@ -28,7 +29,7 @@ public class Main {
 
 
         if (keyGenAsk) {
-            System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host: ");
+            System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host, Press 4 if you already have a key you would like to paste in: ");
             hoster = scan.nextInt();
             scan.nextLine();
 
@@ -42,26 +43,38 @@ public class Main {
                 } else if (hoster == 3) {
                     url = budWareHost;
                     hosterisValid = true;
-                } else {
+                }
+                else if(hoster == 4){
+                    doBrowser = false;
+                    hosterisValid = true;
+                }
+                else {
                     System.out.println("No valid option was submitted");
-                    System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host: ");}
-            }
+                    System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host, Press 4 if you already have a key you would like to paste in: ");
+                }
+                if (!hosterisValid) {
+                    hoster = scan.nextInt();
 
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                try {
-                    desktop.browse(new URI(url));
-                } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Runtime runtime = Runtime.getRuntime();
-                try {
-                    runtime.exec("xdg-open " + url);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
+                if(doBrowser) {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop desktop = Desktop.getDesktop();
+                        try {
+                            desktop.browse(new URI(url));
+                        } catch (IOException | URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Runtime runtime = Runtime.getRuntime();
+                        try {
+                            runtime.exec("xdg-open " + url);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
             System.out.println("Input Key:");
             String key = scan.nextLine();
 
