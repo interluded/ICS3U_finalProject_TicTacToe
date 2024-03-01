@@ -519,137 +519,138 @@ public class tttGame extends JPanel implements MouseListener {
     }
 
     public void computerMove() {
-        if (a == 2 && b == 2 && c == 0) {
+        if (a == 2 && b == 2 && c == 0 && !turn) {
             c = 2;
-        } else if (a == 2 && c == 2 && b == 0) {
+        } else if (a == 2 && c == 2 && b == 0 && !turn) {
             b = 2;
-        } else if (b == 2 && c == 2 && a == 0) {
+        } else if (b == 2 && c == 2 && a == 0 && !turn) {
             a = 2;
-        } else if (d == 2 && e1 == 2 && f == 0) {
+        } else if (d == 2 && e1 == 2 && f == 0 && !turn) {
             f = 2;
-        } else if (d == 2 && f == 2 && e1 == 0) {
+        } else if (d == 2 && f == 2 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 2 && f == 2 && d == 0) {
+        } else if (e1 == 2 && f == 2 && d == 0 && !turn) {
             d = 2;
-        } else if (g1 == 2 && h == 2 && i == 0) {
+        } else if (g1 == 2 && h == 2 && i == 0 && !turn) {
             i = 2;
-        } else if (g1 == 2 && i == 2 && h == 0) {
+        } else if (g1 == 2 && i == 2 && h == 0 && !turn) {
             h = 2;
-        } else if (h == 2 && i == 2 && g1 == 0) {
+        } else if (h == 2 && i == 2 && g1 == 0 && !turn) {
             g1 = 2;
-        } else if (a == 2 && d == 2 && g1 == 0) {
+        } else if (a == 2 && d == 2 && g1 == 0 && !turn) {
             g1 = 2;
-        } else if (a == 2 && g1 == 2 && d == 0) {
+        } else if (a == 2 && g1 == 2 && d == 0 && !turn) {
             d = 2;
-        } else if (d == 2 && g1 == 2 && a == 0) {
+        } else if (d == 2 && g1 == 2 && a == 0 && !turn) {
             a = 2;
-        } else if (b == 2 && e1 == 2 && h == 0) {
+        } else if (b == 2 && e1 == 2 && h == 0 && !turn) {
             h = 2;
-        } else if (b == 2 && h == 2 && e1 == 0) {
+        } else if (b == 2 && h == 2 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 2 && h == 2 && b == 0) {
+        } else if (e1 == 2 && h == 2 && b == 0 && !turn) {
             b = 2;
-        } else if (c == 2 && f == 2 && i == 0) {
+        } else if (c == 2 && f == 2 && i == 0 && !turn) {
             i = 2;
-        } else if (c == 2 && i == 2 && f == 0) {
+        } else if (c == 2 && i == 2 && f == 0 && !turn) {
             f = 2;
-        } else if (f == 2 && i == 2 && c == 0) {
+        } else if (f == 2 && i == 2 && c == 0 && !turn) {
             c = 2;
-        } else if (a == 2 && e1 == 2 && i == 0) {
+        } else if (a == 2 && e1 == 2 && i == 0 && !turn) {
             i = 2;
-        } else if (a == 2 && i == 2 && e1 == 0) {
+        } else if (a == 2 && i == 2 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 2 && i == 2 && a == 0) {
+        } else if (e1 == 2 && i == 2 && a == 0 && !turn) {
             a = 2;
-        } else if (g1 == 2 && e1 == 2 && c == 0) {
+        } else if (g1 == 2 && e1 == 2 && c == 0 && !turn) {
             c = 2;
-        } else if (g1 == 2 && c == 2 && e1 == 0) {
+        } else if (g1 == 2 && c == 2 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 2 && c == 2 && g1 == 0) {
+        } else if (e1 == 2 && c == 2 && g1 == 0 && !turn) {
             g1 = 2;
         }
 
         // blocks
-        else if (a == 1 && b == 1 && c == 0) {
+        else if (a == 1 && b == 1 && c == 0 && !turn) {
             c = 2;
-        } else if (a == 1 && c == 1 && b == 0) {
+        } else if (a == 1 && c == 1 && b == 0 && !turn) {
             b = 2;
-        } else if (b == 1 && c == 1 && a == 0) {
+        } else if (b == 1 && c == 1 && a == 0 && !turn) {
             a = 2;
-        } else if (d == 1 && e1 == 1 && f == 0) {
+        } else if (d == 1 && e1 == 1 && f == 0 && !turn) {
             f = 2;
-        } else if (d == 1 && f == 1 && e1 == 0) {
+        } else if (d == 1 && f == 1 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 1 && f == 1 && d == 0) {
+        } else if (e1 == 1 && f == 1 && d == 0 && !turn) {
             d = 2;
-        } else if (g1 == 1 && h == 1 && i == 0) {
+        } else if (g1 == 1 && h == 1 && i == 0 && !turn) {
             i = 2;
-        } else if (g1 == 1 && i == 1 && h == 0) {
+        } else if (g1 == 1 && i == 1 && h == 0 && !turn) {
             h = 2;
-        } else if (h == 1 && i == 1 && g1 == 0) {
+        } else if (h == 1 && i == 1 && g1 == 0 && !turn) {
             g1 = 2;
-        } else if (a == 1 && d == 1 && g1 == 0) {
+        } else if (a == 1 && d == 1 && g1 == 0 && !turn) {
             g1 = 2;
-        } else if (a == 1 && g1 == 1 && d == 0) {
+        } else if (a == 1 && g1 == 1 && d == 0 && !turn) {
             d = 2;
-        } else if (d == 1 && g1 == 1 && a == 0) {
+        } else if (d == 1 && g1 == 1 && a == 0 && !turn) {
             a = 2;
-        } else if (b == 1 && e1 == 1 && h == 0) {
+        } else if (b == 1 && e1 == 1 && h == 0 && !turn) {
             h = 2;
-        } else if (b == 1 && h == 1 && e1 == 0) {
+        } else if (b == 1 && h == 1 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 1 && h == 1 && b == 0) {
+        } else if (e1 == 1 && h == 1 && b == 0 && !turn) {
             b = 2;
-        } else if (c == 1 && f == 1 && i == 0) {
+        } else if (c == 1 && f == 1 && i == 0 && !turn) {
             i = 2;
-        } else if (c == 1 && i == 1 && f == 0) {
+        } else if (c == 1 && i == 1 && f == 0 && !turn) {
             f = 2;
-        } else if (f == 1 && i == 1 && c == 0) {
+        } else if (f == 1 && i == 1 && c == 0 && !turn) {
             c = 2;
-        } else if (a == 1 && e1 == 1 && i == 0) {
+        } else if (a == 1 && e1 == 1 && i == 0 && !turn) {
             i = 2;
-        } else if (a == 1 && i == 1 && e1 == 0) {
+        } else if (a == 1 && i == 1 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 1 && i == 1 && a == 0) {
+        } else if (e1 == 1 && i == 1 && a == 0 && !turn) {
             a = 2;
-        } else if (g1 == 1 && e1 == 1 && c == 0) {
+        } else if (g1 == 1 && e1 == 1 && c == 0 && !turn) {
             c = 2;
-        } else if (g1 == 1 && c == 1 && e1 == 0) {
+        } else if (g1 == 1 && c == 1 && e1 == 0 && !turn) {
             e1 = 2;
-        } else if (e1 == 1 && c == 1 && g1 == 0) {
+        } else if (e1 == 1 && c == 1 && g1 == 0 && !turn) {
             g1 = 2;
         }
 
         // go center
-        else if (e1 == 0) {
+        else if (e1 == 0 && !turn) {
             e1 = 2;
         }
 
         // corners
-        else if (a == 0) {
+        else if (a == 0 && !turn) {
             a = 2;
-        } else if (c == 0) {
+        } else if (c == 0 && !turn) {
             c = 2;
-        } else if (g1 == 0) {
+        } else if (g1 == 0 && !turn) {
             g1 = 2;
-        } else if (i == 0) {
+        } else if (i == 0 && !turn) {
             i = 2;
         }
 
         // sides
-        else if (b == 0) {
+        else if (b == 0 && !turn) {
             b = 2;
-        } else if (d == 0) {
+        } else if (d == 0 && !turn) {
             d = 2;
-        } else if (f == 0) {
+        } else if (f == 0 && !turn) {
             f = 2;
-        } else if (h == 0) {
+        } else if (h == 0 && !turn) {
             h = 2;
         }
 
         turn = true;
         repaint();
     }
+
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
