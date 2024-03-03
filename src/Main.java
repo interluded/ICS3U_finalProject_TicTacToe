@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Scanner;
@@ -8,6 +12,10 @@ import java.util.Scanner;
 
 @SuppressWarnings({ "CallToPrintStackTrace", "deprecation" ,"ConstantValue" })
 public class Main {
+    static boolean actServer = false;
+    private static String ownerid = "ljx961tNdt";
+    private static String appname = "tttGame";
+    private static String version = "1.0";
     public static void main(String[] args) {
         boolean keyGenAsk = false;
         int hoster;
@@ -110,4 +118,6 @@ public class Main {
             System.out.println("Not authenticated");
         }
     }
+
+
 }

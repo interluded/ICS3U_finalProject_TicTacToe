@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -22,6 +24,8 @@ public class tttGame extends JPanel implements MouseListener {
     Image p2Win;
 
     Clip clip;
+
+    boolean actServer = false;
 
 
     boolean turn = true; //decides who's turn it is (true = 1) (false = 0)
@@ -101,17 +105,24 @@ public class tttGame extends JPanel implements MouseListener {
         if (screen == 1) {
             startScreen(g);
             musicButton(g);
+
         } else if (screen == 2) {
             drawBoard(g);
+            if(!actServer)
+                NetworkingClient();
         } else if (screen == 3) {
             drawP1Win(g);
+
         } else if (screen == 4) {
             drawP2Win(g);
+
         } else if (screen == 5) {
             drawTieGame(g);
+
         }
         else if(screen == 6){
             drawSelectPlayer(g);
+
         }
 
     }
@@ -136,6 +147,11 @@ public class tttGame extends JPanel implements MouseListener {
         g.fillRect(0, 0, 80, 30);
         g.setColor(Color.BLACK);
         g.drawString("Toggle Music", 0, 20);
+    }
+    public void isServer(Graphics g) {
+        g.fillRect(0, 0, 80, 30);
+        g.setColor(Color.BLACK);
+        g.drawString("Act as server (default = false)", 0, 60);
     }
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
@@ -309,6 +325,8 @@ public class tttGame extends JPanel implements MouseListener {
         }
 
 
+
+
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
                 screen = 6;
@@ -317,7 +335,11 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 6;
                 players = 2;
 
+            }else if(x >= 0 && x<= 80 && y>=0 && y <= 30){
+                actServer = !actServer;
+                System.out.println(actServer);
             }
+
 
         } else if (screen == 6) { // Player select screen
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
@@ -680,4 +702,62 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
+    public void NetworkingClient() {
+        try {
+            Socket clientSocket = new Socket("127.0.0.1", 8080);
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            // Sender thread
+            Thread sender = new Thread(() -> {
+                Scanner scanner = new Scanner(System.in);
+                while (true) {
+                    String msgToSend = scanner.nextLine();
+                    out.println(msgToSend);
+                }
+            });
+
+            // Receiver thread
+
+            /*
+            FORMAT:
+            a1 = spot 1 player 1
+            a2 = spot 1 player 2
+            so on so forth
+
+             */
+            Thread receiver = new Thread(() -> {
+                try {
+                    String msgFromServer = null;
+                    if(msgFromServer.equals("YTE=")){
+                        a = 1;
+                    }
+                    if(msgFromServer.equals("YjE=")){
+                        b = 1;
+                    }
+                    if(msgFromServer.equals("YzE=")){
+                        c = 1;
+                    }
+                    if(msgFromServer.equals("ZDE=")){
+                        d = 1;
+                    }
+                    if(msgFromServer.equals("ZDE=")){
+                        d = 1;
+                    }
+
+                    while ((msgFromServer = in.readLine()) != null) {
+                        System.out.println("Server: " + msgFromServer);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error reading from server: " + e.getMessage());
+                }
+            });
+
+            sender.start();
+            receiver.start();
+        } catch (IOException e) {
+            System.out.println("Could not connect to server: " + e.getMessage());
+        }
+    }
+
 }
