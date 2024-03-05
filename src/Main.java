@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Scanner;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 
 @SuppressWarnings({ "CallToPrintStackTrace", "deprecation" ,"ConstantValue" })
@@ -16,7 +19,8 @@ public class Main {
     private static String ownerid = "ljx961tNdt";
     private static String appname = "tttGame";
     private static String version = "1.0";
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Scanner scan = new Scanner(System.in);
         boolean keyGenAsk = false;
         int hoster;
         boolean hosterisValid = false;
@@ -26,12 +30,11 @@ public class Main {
         String gCloudHost = "https://interluded.tech";
         String budWareHost = "https://indevelopment4.com";
         String url = "";
-        Scanner scan = new Scanner(System.in);
         System.out.println("Key needed for authentication, Generate? (Y/N)");
         String wantKey = scan.nextLine();
-        if(wantKey.equalsIgnoreCase("Y"))
-        keyGenAsk = true;
-        else{
+        if (wantKey.equalsIgnoreCase("Y"))
+            keyGenAsk = true;
+        else {
             System.exit(0);
         }
 
@@ -41,7 +44,7 @@ public class Main {
             hoster = scan.nextInt();
             scan.nextLine();
 
-            while(!hosterisValid) {
+            while (!hosterisValid) {
                 if (hoster == 1) {
                     url = linodeHost;
                     hosterisValid = true;
@@ -51,12 +54,10 @@ public class Main {
                 } else if (hoster == 3) {
                     url = budWareHost;
                     hosterisValid = true;
-                }
-                else if(hoster == 4){
+                } else if (hoster == 4) {
                     doBrowser = false;
                     hosterisValid = true;
-                }
-                else {
+                } else {
                     System.out.println("No valid option was submitted");
                     System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host, Press 4 if you already have a key you would like to paste in: ");
                 }
@@ -65,23 +66,23 @@ public class Main {
 
                 }
             }
-                if(doBrowser) {
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop desktop = Desktop.getDesktop();
-                        try {
-                            desktop.browse(new URI(url));
-                        } catch (IOException | URISyntaxException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Runtime runtime = Runtime.getRuntime();
-                        try {
-                            runtime.exec("xdg-open " + url);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            if (doBrowser) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.browse(new URI(url));
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Runtime runtime = Runtime.getRuntime();
+                    try {
+                        runtime.exec("xdg-open " + url);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
+            }
 
             System.out.println("Input Key:");
             String key = scan.nextLine();
@@ -113,11 +114,8 @@ public class Main {
             frame.add(game);
             frame.setVisible(true);
 
-        }
-        else{
+        } else {
             System.out.println("Not authenticated");
         }
     }
-
-
 }

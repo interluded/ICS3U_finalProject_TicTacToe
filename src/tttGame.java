@@ -724,29 +724,39 @@ public class tttGame extends JPanel implements MouseListener {
             a1 = spot 1 player 1
             a2 = spot 1 player 2
             so on so forth
-
              */
             Thread receiver = new Thread(() -> {
                 try {
-                    String msgFromServer = null;
-                    if(msgFromServer.equals("YTE=")){
-                        a = 1;
-                    }
-                    if(msgFromServer.equals("YjE=")){
-                        b = 1;
-                    }
-                    if(msgFromServer.equals("YzE=")){
-                        c = 1;
-                    }
-                    if(msgFromServer.equals("ZDE=")){
-                        d = 1;
-                    }
-                    if(msgFromServer.equals("ZDE=")){
-                        d = 1;
-                    }
-
+                    String msgFromServer = "default";
                     while ((msgFromServer = in.readLine()) != null) {
                         System.out.println("Server: " + msgFromServer);
+                        if(msgFromServer.equals("YTE=") && !turn){
+                            a = 1;
+                        }
+                        else if(msgFromServer.equals("YjE=")){
+                            b = 1;
+                        }
+                        else  if(msgFromServer.equals("YzE=")){
+                            c = 1;
+                        }
+                        else if(msgFromServer.equals("ZDE=")){
+                            d = 1;
+                        }
+                        else   if(msgFromServer.equals("ZTE=")){
+                            e1 = 1;
+                        }
+                        else  if(msgFromServer.equals("ZjE=")){
+                            f = 1;
+                        }
+                        else if(msgFromServer.equals("ZzE=")){
+                            g1 = 1;
+                        }
+                        else  if(msgFromServer.equals("aDE=")){
+                            h = 1;
+                        }
+                        else  if(msgFromServer.equals("ajE=")){
+                            i = 1;
+                        }
                     }
                 } catch (IOException e) {
                     System.out.println("Error reading from server: " + e.getMessage());
