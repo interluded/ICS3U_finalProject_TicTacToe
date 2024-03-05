@@ -732,30 +732,47 @@ public class tttGame extends JPanel implements MouseListener {
                         System.out.println("Server: " + msgFromServer);
                         if(msgFromServer.equals("YTE=") && !turn){
                             a = 1;
+                            repaint();
                         }
                         else if(msgFromServer.equals("YjE=")){
+                            turn = !turn;
                             b = 1;
+                            repaint();
                         }
                         else  if(msgFromServer.equals("YzE=")){
+                            turn = !turn;
                             c = 1;
+                            repaint();
                         }
                         else if(msgFromServer.equals("ZDE=")){
+                            turn = !turn;
                             d = 1;
+                            repaint();
                         }
                         else   if(msgFromServer.equals("ZTE=")){
+                            turn = !turn;
                             e1 = 1;
+                            repaint();
                         }
                         else  if(msgFromServer.equals("ZjE=")){
+                            turn = !turn;
                             f = 1;
+                            repaint();
                         }
                         else if(msgFromServer.equals("ZzE=")){
+                            turn = !turn;
                             g1 = 1;
+                            repaint();
                         }
                         else  if(msgFromServer.equals("aDE=")){
+                            turn = !turn;
                             h = 1;
+                            repaint();
                         }
                         else  if(msgFromServer.equals("ajE=")){
+                            turn = !turn;
                             i = 1;
+                            repaint();
                         }
                     }
                 } catch (IOException e) {
