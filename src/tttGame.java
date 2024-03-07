@@ -361,9 +361,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     a = 1;
                     turn = false;
+                    sendToServer = "YTE=";
                 } else {
                     a = 2;
                     turn = true;
+                    sendToServer = "YTI=";
                 }
             }
 
@@ -372,9 +374,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     b = 1;
                     turn = false;
+                    sendToServer = "YjE=";
                 } else {
                     b = 2;
                     turn = true;
+                    sendToServer = "YjI=";
                 }
             }
 
@@ -383,9 +387,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     c = 1;
                     turn = false;
+                    sendToServer = "YzE=";
                 } else {
                     c = 2;
                     turn = true;
+                    sendToServer = "YzI=";
                 }
             }
 
@@ -715,6 +721,15 @@ public class tttGame extends JPanel implements MouseListener {
                 Scanner scanner = new Scanner(System.in);
                 while (true) {
                     String msgToSend = "default";
+                    msgToSend = sendToServer;
+                    int secondsToSleep = 3;
+                    try {
+                        Thread.sleep(secondsToSleep * 1000);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+
+
                         out.println(msgToSend);
 
                 }
