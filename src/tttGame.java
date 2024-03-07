@@ -26,6 +26,7 @@ public class tttGame extends JPanel implements MouseListener {
     Clip clip;
 
     boolean actServer = false;
+    String sendToServer = null;
 
 
     boolean turn = true; //decides who's turn it is (true = 1) (false = 0)
@@ -708,15 +709,16 @@ public class tttGame extends JPanel implements MouseListener {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
+
             // Sender thread
             Thread sender = new Thread(() -> {
                 Scanner scanner = new Scanner(System.in);
                 while (true) {
-                    String msgToSend = scanner.nextLine();
-                    out.println(msgToSend);
+                    String msgToSend = "default";
+                        out.println(msgToSend);
+
                 }
             });
-
             // Receiver thread
 
             /*
@@ -726,13 +728,15 @@ public class tttGame extends JPanel implements MouseListener {
             so on so forth
              */
             Thread receiver = new Thread(() -> {
+
                 try {
                     String msgFromServer = "default";
                     while ((msgFromServer = in.readLine()) != null) {
                         System.out.println("Server: " + msgFromServer);
-                        if(msgFromServer.equals("YTE=") && !turn){
+                        if(msgFromServer.equals("YTE=")){
                             a = 1;
                             repaint();
+                            turn = !turn;
                         }
                         else if(msgFromServer.equals("YjE=")){
                             turn = !turn;
@@ -749,7 +753,7 @@ public class tttGame extends JPanel implements MouseListener {
                             d = 1;
                             repaint();
                         }
-                        else   if(msgFromServer.equals("ZTE=")){
+                        else if(msgFromServer.equals("ZTE=")){
                             turn = !turn;
                             e1 = 1;
                             repaint();
@@ -772,6 +776,51 @@ public class tttGame extends JPanel implements MouseListener {
                         else  if(msgFromServer.equals("ajE=")){
                             turn = !turn;
                             i = 1;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("YTI=")){
+                            turn = !turn;
+                            a = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("YjI=")){
+                            turn = !turn;
+                            b = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("YzI=")){
+                            turn = !turn;
+                            c = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("ZDI=")){
+                            turn = !turn;
+                            d = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("ZTI=")){
+                            turn = !turn;
+                            e1 = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("ZjI=")){
+                            turn = !turn;
+                            f = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("ZzI=")){
+                            turn = !turn;
+                            g1 = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("aDI=")){
+                            turn = !turn;
+                            h = 2;
+                            repaint();
+                        }
+                        else  if(msgFromServer.equals("aTI=")){
+                            turn = !turn;
+                            i = 2;
                             repaint();
                         }
                     }
