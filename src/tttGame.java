@@ -404,9 +404,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     d = 1;
                     turn = false;
+                    sendToServer = "ZDE=";
                 } else {
                     d = 2;
                     turn = true;
+                    sendToServer = "ZDI";
                 }
             }
 
@@ -415,9 +417,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     e1 = 1;
                     turn = false;
+                    sendToServer = "ZTE=";
                 } else {
                     e1 = 2;
                     turn = true;
+                    sendToServer = "ZTI=";
                 }
             }
 
@@ -426,9 +430,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     f = 1;
                     turn = false;
+                    sendToServer = "ZjE=";
                 } else {
                     f = 2;
                     turn = true;
+                    sendToServer = "ZjI=";
                 }
             }
 
@@ -437,9 +443,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     g1 = 1;
                     turn = false;
+                    sendToServer = "ZzE=";
                 } else {
                     g1 = 2;
                     turn = true;
+                    sendToServer = "ZzI=";
                 }
             }
 
@@ -448,9 +456,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     h = 1;
                     turn = false;
+                    sendToServer = "aDE=";
                 } else {
                     h = 2;
                     turn = true;
+                    sendToServer = "aDI=";
                 }
             }
 
@@ -459,9 +469,11 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     i = 1;
                     turn = false;
+                    sendToServer = "ajE=";
                 } else {
                     i = 2;
                     turn = true;
+                    sendToServer = "aTI=";
                 }
             }
         } else if (screen == 2 && players == 1) // one player game
