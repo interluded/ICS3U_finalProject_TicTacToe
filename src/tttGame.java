@@ -101,6 +101,7 @@ public class tttGame extends JPanel implements MouseListener {
             e.printStackTrace();
         }
     }
+
     //End Code snippet from StackOverFlow
     public void paint(Graphics g) {
         if (screen == 1) {
@@ -109,7 +110,7 @@ public class tttGame extends JPanel implements MouseListener {
 
         } else if (screen == 2) {
             drawBoard(g);
-            if(!actServer)
+            if (!actServer)
                 NetworkingClient();
         } else if (screen == 3) {
             drawP1Win(g);
@@ -120,13 +121,13 @@ public class tttGame extends JPanel implements MouseListener {
         } else if (screen == 5) {
             drawTieGame(g);
 
-        }
-        else if(screen == 6){
+        } else if (screen == 6) {
             drawSelectPlayer(g);
 
         }
 
     }
+
     public void drawSelectPlayer(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 200, 0, null);
@@ -144,16 +145,19 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("Jupiter (P2)", 610, 655);
     }
-    public void musicButton(Graphics g){
+
+    public void musicButton(Graphics g) {
         g.fillRect(0, 0, 80, 30);
         g.setColor(Color.BLACK);
         g.drawString("Toggle Music", 0, 20);
     }
+
     public void isServer(Graphics g) {
         g.fillRect(0, 0, 80, 30);
         g.setColor(Color.BLACK);
         g.drawString("Act as server (default = false)", 0, 60);
     }
+
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 200, 0, null);
@@ -171,6 +175,7 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("2P START", 610, 655);
     }
+
     public void drawBoard(Graphics g) {
 
         g.drawImage(background, 0, 0, null);
@@ -310,7 +315,9 @@ public class tttGame extends JPanel implements MouseListener {
 
     }
 
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+    }
+
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
@@ -326,8 +333,6 @@ public class tttGame extends JPanel implements MouseListener {
         }
 
 
-
-
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
                 screen = 6;
@@ -336,7 +341,7 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 6;
                 players = 2;
 
-            }else if(x >= 0 && x<= 80 && y>=0 && y <= 30){
+            } else if (x >= 0 && x <= 80 && y >= 0 && y <= 30) {
                 actServer = !actServer;
                 System.out.println(actServer);
             }
@@ -354,8 +359,7 @@ public class tttGame extends JPanel implements MouseListener {
                 }
                 screen = 2;
             }
-            }
-         else if (screen == 2 && players == 2) {
+        } else if (screen == 2 && players == 2) {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
@@ -680,9 +684,14 @@ public class tttGame extends JPanel implements MouseListener {
         repaint();
     }
 
-    public void mouseReleased(MouseEvent e) {}
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
 
     public void drawP1Win(Graphics g) {
         g.drawImage(p1Win, 0, 0, null);
@@ -692,6 +701,7 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
+
     public void drawP2Win(Graphics g) {
         g.drawImage(p2Win, 0, 0, null);
         //draw back button
@@ -709,6 +719,7 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
+
     public void NetworkingClient() {
         try {
             Socket clientSocket = new Socket("127.0.0.1", 8080);
@@ -730,7 +741,7 @@ public class tttGame extends JPanel implements MouseListener {
                     }
 
 
-                        out.println(msgToSend);
+                    out.println(msgToSend);
 
                 }
             });
@@ -748,92 +759,75 @@ public class tttGame extends JPanel implements MouseListener {
                     String msgFromServer = "default";
                     while ((msgFromServer = in.readLine()) != null) {
                         System.out.println("Server: " + msgFromServer);
-                        if(msgFromServer.equals("YTE=")){
+                        if (msgFromServer.equals("YTE=")) {
                             a = 1;
                             repaint();
                             turn = !turn;
-                        }
-                        else if(msgFromServer.equals("YjE=")){
+                        } else if (msgFromServer.equals("YjE=")) {
                             turn = !turn;
                             b = 1;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("YzE=")){
+                        } else if (msgFromServer.equals("YzE=")) {
                             turn = !turn;
                             c = 1;
                             repaint();
-                        }
-                        else if(msgFromServer.equals("ZDE=")){
+                        } else if (msgFromServer.equals("ZDE=")) {
                             turn = !turn;
                             d = 1;
                             repaint();
-                        }
-                        else if(msgFromServer.equals("ZTE=")){
+                        } else if (msgFromServer.equals("ZTE=")) {
                             turn = !turn;
                             e1 = 1;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("ZjE=")){
+                        } else if (msgFromServer.equals("ZjE=")) {
                             turn = !turn;
                             f = 1;
                             repaint();
-                        }
-                        else if(msgFromServer.equals("ZzE=")){
+                        } else if (msgFromServer.equals("ZzE=")) {
                             turn = !turn;
                             g1 = 1;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("aDE=")){
+                        } else if (msgFromServer.equals("aDE=")) {
                             turn = !turn;
                             h = 1;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("ajE=")){
+                        } else if (msgFromServer.equals("ajE=")) {
                             turn = !turn;
                             i = 1;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("YTI=")){
+                        } else if (msgFromServer.equals("YTI=")) {
                             turn = !turn;
                             a = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("YjI=")){
+                        } else if (msgFromServer.equals("YjI=")) {
                             turn = !turn;
                             b = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("YzI=")){
+                        } else if (msgFromServer.equals("YzI=")) {
                             turn = !turn;
                             c = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("ZDI=")){
+                        } else if (msgFromServer.equals("ZDI=")) {
                             turn = !turn;
                             d = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("ZTI=")){
+                        } else if (msgFromServer.equals("ZTI=")) {
                             turn = !turn;
                             e1 = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("ZjI=")){
+                        } else if (msgFromServer.equals("ZjI=")) {
                             turn = !turn;
                             f = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("ZzI=")){
+                        } else if (msgFromServer.equals("ZzI=")) {
                             turn = !turn;
                             g1 = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("aDI=")){
+                        } else if (msgFromServer.equals("aDI=")) {
                             turn = !turn;
                             h = 2;
                             repaint();
-                        }
-                        else  if(msgFromServer.equals("aTI=")){
+                        } else if (msgFromServer.equals("aTI=")) {
                             turn = !turn;
                             i = 2;
                             repaint();
