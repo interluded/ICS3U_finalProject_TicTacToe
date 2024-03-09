@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.sound.sampled.AudioInputStream;
@@ -22,6 +23,11 @@ public class tttGame extends JPanel implements MouseListener {
     Image tieImage;
     Image p1Win;
     Image p2Win;
+    static ServerSocket serverSocket ;
+    static Socket clientSocket;
+    static BufferedReader in;
+    static PrintWriter out;
+
 
     Clip clip;
 
@@ -46,7 +52,6 @@ public class tttGame extends JPanel implements MouseListener {
 
     public tttGame() {
         addMouseListener(this);
-
 
         JButton toggleMusicButton;
         setLayout(null);
@@ -110,8 +115,6 @@ public class tttGame extends JPanel implements MouseListener {
 
         } else if (screen == 2) {
             drawBoard(g);
-            if (!actServer)
-                NetworkingClient();
         } else if (screen == 3) {
             drawP1Win(g);
 
@@ -360,6 +363,11 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 2;
             }
         } else if (screen == 2 && players == 2) {
+            if (!actServer)
+                NetworkingClient();
+            else if(actServer){
+                NetworkingServer();
+            }
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
@@ -743,7 +751,7 @@ public class tttGame extends JPanel implements MouseListener {
             Thread sender = new Thread(() -> {
                 Scanner scanner = new Scanner(System.in);
                 while (true) {
-                    String msgToSend = "default";
+                    String msgToSend;
                     msgToSend = sendToServer;
                     int secondsToSleep = 3;
                     try {
@@ -768,9 +776,10 @@ public class tttGame extends JPanel implements MouseListener {
             Thread receiver = new Thread(() -> {
 
                 try {
-                    String msgFromServer = "default";
+                    String msgFromServer;
                     while ((msgFromServer = in.readLine()) != null) {
                         System.out.println("Server: " + msgFromServer);
+                        if(actServer){
                         if (msgFromServer.equals("YTE=")) {
                             a = 1;
                             repaint();
@@ -844,12 +853,12 @@ public class tttGame extends JPanel implements MouseListener {
                             i = 2;
                             repaint();
                         }
+                        }
                     }
                 } catch (IOException e) {
                     System.out.println("Error reading from server: " + e.getMessage());
                 }
             });
-
             sender.start();
             receiver.start();
         } catch (IOException e) {
@@ -857,4 +866,125 @@ public class tttGame extends JPanel implements MouseListener {
         }
     }
 
+    public void NetworkingServer(){
+        try {
+            serverSocket = new ServerSocket(8080);
+            clientSocket = serverSocket.accept(); // Wait and accept a connection
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            Thread sender = new Thread(() -> {
+                Scanner scan = new Scanner(System.in);
+                String msg;
+                while (true) {
+                    msg = scan.nextLine();
+                    out.println(msg);
+                    repaint();
+                }
+            });
+            sender.start();
+
+            Thread receive = new Thread(() -> {
+                String msg;
+                try {
+                    while ((msg = in.readLine()) != null) {
+                        System.out.println("Client: " + msg);
+                        if (msg.equals(null)){
+                            repaint();
+                        }
+                        if (msg.equals("YTE=")) {
+                            a = 1;
+                            repaint();
+                            turn = !turn;
+                        } else if (msg.equals("YjE=")) {
+                            turn = !turn;
+                            b = 1;
+                            repaint();
+                        } else if (msg.equals("YzE=")) {
+                            turn = !turn;
+                            c = 1;
+                            repaint();
+                        } else if (msg.equals("ZDE=")) {
+                            turn = !turn;
+                            d = 1;
+                            repaint();
+                        } else if (msg.equals("ZTE=")) {
+                            turn = !turn;
+                            e1 = 1;
+                            repaint();
+                        } else if (msg.equals("ZjE=")) {
+                            turn = !turn;
+                            f = 1;
+                            repaint();
+                        } else if (msg.equals("ZzE=")) {
+                            turn = !turn;
+                            g1 = 1;
+                            repaint();
+                        } else if (msg.equals("aDE=")) {
+                            turn = !turn;
+                            h = 1;
+                            repaint();
+                        } else if (msg.equals("ajE=")) {
+                            turn = !turn;
+                            i = 1;
+                            repaint();
+                        } else if (msg.equals("YTI=")) {
+                            turn = !turn;
+                            a = 2;
+                            repaint();
+                        } else if (msg.equals("YjI=")) {
+                            turn = !turn;
+                            b = 2;
+                            repaint();
+                        } else if (msg.equals("YzI=")) {
+                            turn = !turn;
+                            c = 2;
+                            repaint();
+                        } else if (msg.equals("ZDI=")) {
+                            turn = !turn;
+                            d = 2;
+                            repaint();
+                        } else if (msg.equals("ZTI=")) {
+                            turn = !turn;
+                            e1 = 2;
+                            repaint();
+                        } else if (msg.equals("ZjI=")) {
+                            turn = !turn;
+                            f = 2;
+                            repaint();
+                        } else if (msg.equals("ZzI=")) {
+                            turn = !turn;
+                            g1 = 2;
+                            repaint();
+                        } else if (msg.equals("aDI=")) {
+                            turn = !turn;
+                            h = 2;
+                            repaint();
+                        } else if (msg.equals("aTI=")) {
+                            turn = !turn;
+                            i = 2;
+                            repaint();
+                        }
+                    }
+                    System.out.println("Client disconnected.");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) out.close();
+                        if (in != null) in.close();
+                        if (clientSocket != null) clientSocket.close();
+                        if (serverSocket != null) serverSocket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            receive.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
