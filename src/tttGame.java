@@ -15,6 +15,8 @@ public class tttGame extends JPanel implements MouseListener {
     Image background;
     Image xImage;
     Image oImage;
+    int tile = (int) (Math.random() * 9) + 1;
+    boolean easy_mode = true;
     int screen = 1;
     int players;
     Image tieImage;
@@ -112,6 +114,12 @@ public class tttGame extends JPanel implements MouseListener {
         }
         else if(screen == 6){
             drawSelectPlayer(g);
+                // Draw a custom button for difficulty selection
+                g.setColor(Color.ORANGE);
+                g.fillRect(350, 500, 200, 50); // x, y, width, height of the button
+                g.setColor(Color.BLACK);
+                g.drawString("Select Difficulty", 360, 530); // Adjust x, y to fit within the button
+
         }
 
     }
@@ -309,6 +317,7 @@ public class tttGame extends JPanel implements MouseListener {
         }
 
 
+
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
                 screen = 6;
@@ -317,6 +326,10 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 6;
                 players = 2;
 
+            }
+            else if (x>=0 && x<=200 && y>=400 && y<=700){
+                easy_mode = !easy_mode;
+                System.out.println(easy_mode);
             }
 
         } else if (screen == 6) { // Player select screen
@@ -330,6 +343,14 @@ public class tttGame extends JPanel implements MouseListener {
                     throw new RuntimeException(ex);
                 }
                 screen = 2;
+            }
+            if(screen == 6) {
+                // Check if the click is within the bounds of the difficulty button
+                if(x >= 350 && x <= 550 && y >= 500 && y <= 550) {
+                    easy_mode = !easy_mode; // Toggle the difficulty mode
+                    System.out.println("Difficulty changed to: " + (easy_mode ? "Easy" : "Hard"));
+                    repaint(); // Optional: Repaint the screen if you need to visually indicate the change
+                }
             }
             }
          else if (screen == 2 && players == 2) {
@@ -507,10 +528,17 @@ public class tttGame extends JPanel implements MouseListener {
         }
         repaint();
 
-        if (players == 1)
+        if (players == 1 && !easy_mode) {
             if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
                 computerMove();
+        }
+        if(players ==1 && easy_mode){
+            if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
+                easyComputerMove();
+        }
+
     }
+
 
     private void resetGame() {
         // Resetting game state for a new game
@@ -521,135 +549,224 @@ public class tttGame extends JPanel implements MouseListener {
     public void computerMove() {
         if (a == 2 && b == 2 && c == 0) {
             c = 2;
+            turn = !turn;
         } else if (a == 2 && c == 2 && b == 0) {
             b = 2;
+            turn = true;
         } else if (b == 2 && c == 2 && a == 0) {
             a = 2;
+            turn = true;
         } else if (d == 2 && e1 == 2 && f == 0) {
             f = 2;
+            turn = true;
         } else if (d == 2 && f == 2 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 2 && f == 2 && d == 0) {
             d = 2;
+            turn = true;
         } else if (g1 == 2 && h == 2 && i == 0) {
             i = 2;
+            turn = true;
         } else if (g1 == 2 && i == 2 && h == 0) {
             h = 2;
+            turn = true;
         } else if (h == 2 && i == 2 && g1 == 0) {
             g1 = 2;
+            turn = true;
         } else if (a == 2 && d == 2 && g1 == 0) {
             g1 = 2;
+            turn = true;
         } else if (a == 2 && g1 == 2 && d == 0) {
             d = 2;
+            turn = true;
         } else if (d == 2 && g1 == 2 && a == 0) {
             a = 2;
+            turn = true;
         } else if (b == 2 && e1 == 2 && h == 0) {
             h = 2;
+            turn = true;
         } else if (b == 2 && h == 2 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 2 && h == 2 && b == 0) {
             b = 2;
+            turn = true;
         } else if (c == 2 && f == 2 && i == 0) {
             i = 2;
+            turn = true;
         } else if (c == 2 && i == 2 && f == 0) {
             f = 2;
+            turn = true;
         } else if (f == 2 && i == 2 && c == 0) {
             c = 2;
+            turn = true;
         } else if (a == 2 && e1 == 2 && i == 0) {
             i = 2;
+            turn = true;
         } else if (a == 2 && i == 2 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 2 && i == 2 && a == 0) {
             a = 2;
+            turn = true;
         } else if (g1 == 2 && e1 == 2 && c == 0) {
             c = 2;
+            turn = true;
         } else if (g1 == 2 && c == 2 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 2 && c == 2 && g1 == 0) {
             g1 = 2;
+            turn = true;
+        }
+        else if (a==0 && b==0 && c==1 && d==0 && e1==2 && f==0 && g1==0 && h==0 && i==0){
+            h=2;
+            turn = true;
+        }
+        else if(a==1 && b==0 && c==0 && d==0 && e1==2 && f==0 && g1==0 && h==0 && i==0){
+            h=2;
+            turn = true;
         }
 
         // blocks
         else if (a == 1 && b == 1 && c == 0) {
             c = 2;
+            turn = true;
         } else if (a == 1 && c == 1 && b == 0) {
             b = 2;
+            turn = true;
         } else if (b == 1 && c == 1 && a == 0) {
             a = 2;
+            turn = true;
         } else if (d == 1 && e1 == 1 && f == 0) {
             f = 2;
+            turn = true;
         } else if (d == 1 && f == 1 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 1 && f == 1 && d == 0) {
             d = 2;
+            turn = true;
         } else if (g1 == 1 && h == 1 && i == 0) {
             i = 2;
+            turn = true;
         } else if (g1 == 1 && i == 1 && h == 0) {
             h = 2;
+            turn = true;
         } else if (h == 1 && i == 1 && g1 == 0) {
             g1 = 2;
+            turn = true;
         } else if (a == 1 && d == 1 && g1 == 0) {
             g1 = 2;
+            turn = true;
         } else if (a == 1 && g1 == 1 && d == 0) {
             d = 2;
+            turn = true;
         } else if (d == 1 && g1 == 1 && a == 0) {
             a = 2;
+            turn = true;
         } else if (b == 1 && e1 == 1 && h == 0) {
             h = 2;
+            turn = true;
         } else if (b == 1 && h == 1 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 1 && h == 1 && b == 0) {
             b = 2;
+            turn = true;
         } else if (c == 1 && f == 1 && i == 0) {
             i = 2;
+            turn = true;
         } else if (c == 1 && i == 1 && f == 0) {
             f = 2;
+            turn = true;
         } else if (f == 1 && i == 1 && c == 0) {
             c = 2;
+            turn = true;
         } else if (a == 1 && e1 == 1 && i == 0) {
             i = 2;
+            turn = true;
         } else if (a == 1 && i == 1 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 1 && i == 1 && a == 0) {
             a = 2;
+            turn = true;
         } else if (g1 == 1 && e1 == 1 && c == 0) {
             c = 2;
+            turn = true;
         } else if (g1 == 1 && c == 1 && e1 == 0) {
             e1 = 2;
+            turn = true;
         } else if (e1 == 1 && c == 1 && g1 == 0) {
             g1 = 2;
+            turn = true;
         }
 
         // go center
         else if (e1 == 0) {
             e1 = 2;
+            turn = true;
         }
 
         // corners
         else if (a == 0) {
             a = 2;
+            turn = true;
         } else if (c == 0) {
             c = 2;
+            turn = true;
         } else if (g1 == 0) {
             g1 = 2;
+            turn = true;
         } else if (i == 0) {
             i = 2;
+            turn = true;
         }
 
         // sides
         else if (b == 0) {
             b = 2;
+            turn = true;
         } else if (d == 0) {
             d = 2;
+            turn = true;
         } else if (f == 0) {
             f = 2;
+            turn = true;
         } else if (h == 0) {
             h = 2;
+            turn = true;
         }
 
         turn = true;
         repaint();
     }
+    public void reRollNumber(){
+        tile = (int) (Math.random() * 9) + 1;
+    }
+    public void easyComputerMove() {
+        if (players == 1 && easy_mode) {
+
+            while (!turn) {
+                reRollNumber();
+                if(tile == 1 && a == 0) { a = 2; turn = true; }
+                else if(tile == 2 && b == 0) { b = 2; turn = true; }
+                else if(tile == 3 && c == 0) { c = 2; turn = true; }
+                else if(tile == 4 && d == 0) { d = 2; turn = true; }
+                else if(tile == 5 && e1 == 0) { e1 = 2; turn = true; }
+                else if(tile == 6 && f == 0) { f = 2; turn = true; }
+                else if(tile == 7 && g1 == 0) { g1 = 2; turn = true; }
+                else if(tile == 8 && h == 0) { h = 2; turn = true; }
+                else if(tile == 9 && i == 0) { i = 2; turn = true; }
+                // If none of the conditions are met the loop will  re-roll the number
+            }
+            repaint();
+            turn = true;
+        }
+    }
+
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
