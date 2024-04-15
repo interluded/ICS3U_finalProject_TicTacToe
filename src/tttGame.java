@@ -8,6 +8,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 @SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
 
@@ -39,18 +44,30 @@ public class tttGame extends JPanel implements MouseListener {
     int h = 0;
     int i = 0;
     //END MAIN TABLE VARIABLES
-
+    int coins = 999;
 
     public tttGame() {
         addMouseListener(this);
-
-
+        FileToStringReader reader = new FileToStringReader();
+        String username = System.getProperty("user.name");
+        String fileContents = reader.readFileToString("/Users/" + username + "/IdeaProjects/filetester/src/coins.txt");
+        System.out.println("File Contents:");
+        int coinsMethod = Integer.parseInt(fileContents);
+        System.out.println(coins);
+        coins = coinsMethod;
         JButton toggleMusicButton;
         setLayout(null);
 
         toggleMusicButton = new JButton("Toggle Music");
         toggleMusicButton.setBounds(10, 10, 120, 30); //  the button in the top left corner
         add(toggleMusicButton);
+
+        // runs on shutdown, to save coin value to coins.txt.
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                fileWriter();  // Call fileWriter on shutdown
+            }
+        }));
 
         toggleMusicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +133,7 @@ public class tttGame extends JPanel implements MouseListener {
             drawSelectPlayer(g);
                 // Draw a custom button for difficulty selection
                 g.setColor(Color.ORANGE);
-                g.fillRect(350, 500, 200, 50); // x, y, width, height of the button
+                g.fillRoundRect(350, 500, 200, 50,20,20); // x, y, width, height of the button, round rect testong
                 g.setColor(Color.BLACK);
                 g.drawString("Select Difficulty", 360, 530); // Adjust x, y to fit within the button
 
@@ -546,6 +563,7 @@ public class tttGame extends JPanel implements MouseListener {
         turn = true; // Reset turn to player 1
     }
 
+    @SuppressWarnings("UnusedAssignment")
     public void computerMove() {
         if (a == 2 && b == 2 && c == 0) {
             c = 2;
@@ -796,4 +814,37 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
+    public String readFileToString(String filePath) {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (FileReader reader = new FileReader(filePath)) {
+            int character;
+            while ((character = reader.read()) != -1) {
+                contentBuilder.append((char) character);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return contentBuilder.toString();
+    }
+
+    public void fileWriter(){
+    // specify the file name (full path needed)
+    String fileName = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt";
+    String content = Integer.toString(coins);
+        try {
+            // creates new filewriter & buffered
+            FileWriter fileWriter = new FileWriter(fileName, false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(content);
+            //closes when done
+            bufferedWriter.close();
+
+            //debug
+            System.out.println("file written successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
 }
+
+
