@@ -1,21 +1,21 @@
 import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import javax.imageio.*;
-import java.io.*;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+        import javax.swing.*;
+        import java.awt.event.*;
+        import javax.imageio.*;
+        import java.io.*;
+        import javax.sound.sampled.AudioInputStream;
+        import javax.sound.sampled.AudioSystem;
+        import javax.sound.sampled.Clip;
+        import javax.sound.sampled.LineUnavailableException;
+        import javax.sound.sampled.UnsupportedAudioFileException;
+        import java.io.File;
+        import java.io.IOException;
+        import java.io.BufferedWriter;
+        import java.io.FileWriter;
+        import java.io.IOException;
 @SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
-
+    boolean valid_move = false;
     Image title;
     Image background;
     Image xImage;
@@ -44,16 +44,16 @@ public class tttGame extends JPanel implements MouseListener {
     int h = 0;
     int i = 0;
     //END MAIN TABLE VARIABLES
-    int coins = 999;
+    int coins;
 
     public tttGame() {
         addMouseListener(this);
         FileToStringReader reader = new FileToStringReader();
-        String username = System.getProperty("user.name");
-        String fileContents = reader.readFileToString("/Users/" + username + "/IdeaProjects/filetester/src/coins.txt");
+        String fileContents = reader.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt");
         System.out.println("File Contents:");
+        System.out.println(fileContents);
         int coinsMethod = Integer.parseInt(fileContents);
-        System.out.println(coins);
+        System.out.println(coinsMethod);
         coins = coinsMethod;
         JButton toggleMusicButton;
         setLayout(null);
@@ -131,34 +131,38 @@ public class tttGame extends JPanel implements MouseListener {
         }
         else if(screen == 6){
             drawSelectPlayer(g);
-                // Draw a custom button for difficulty selection
-                g.setColor(Color.ORANGE);
-                g.fillRoundRect(350, 500, 200, 50,20,20); // x, y, width, height of the button, round rect testong
-                g.setColor(Color.BLACK);
-                g.drawString("Select Difficulty", 360, 530); // Adjust x, y to fit within the button
+            // Draw a custom button for difficulty selection
+            g.setColor(Color.ORANGE);
+            g.fillRoundRect(350, 500, 200, 50,20,20); // x, y, width, height of the button, round rect testong
+            g.setColor(Color.BLACK);
+            g.drawString("Select Difficulty:", 360, 530); // Adjust x, y to fit within the button
+            if(easy_mode){
+                g.drawString("Easy Mode",450,530);}
+                else if(!easy_mode){
+                    g.drawString("Hard Mode",450,530);
+                }
+            }
 
         }
-
-    }
     public void drawSelectPlayer(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 200, 0, null);
 
         //draw 1p button
         g.setColor(Color.blue);
-        g.fillRect(100, 600, 300, 100);
+        g.fillRoundRect(100, 600, 300, 100,20,20);
         g.setColor(Color.WHITE);
         g.drawString("Earth (P1)", 210, 655);
 
 
         //draw 2p button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRoundRect(500, 600, 300, 100,20,20);
         g.setColor(Color.WHITE);
         g.drawString("Jupiter (P2)", 610, 655);
     }
     public void musicButton(Graphics g){
-        g.fillRect(0, 0, 80, 30);
+        g.fillRoundRect(0, 0, 80, 30,20,20);
         g.setColor(Color.BLACK);
         g.drawString("Toggle Music", 0, 20);
     }
@@ -168,14 +172,15 @@ public class tttGame extends JPanel implements MouseListener {
 
         //draw 1p button
         g.setColor(Color.blue);
-        g.fillRect(100, 600, 300, 100);
+        g.fillRoundRect(100, 600, 300, 100,20,20);
         g.setColor(Color.WHITE);
         g.drawString("1P START", 210, 655);
+        g.drawString("COINS:" + coins,210,600 );
 
 
         //draw 2p button
         g.setColor(Color.RED);
-        g.fillRect(500, 600, 300, 100);
+        g.fillRoundRect(500, 600, 300, 100,20,20);
         g.setColor(Color.WHITE);
         g.drawString("2P START", 610, 655);
     }
@@ -183,10 +188,10 @@ public class tttGame extends JPanel implements MouseListener {
 
         g.drawImage(background, 0, 0, null);
         g.setColor(Color.WHITE);
-        g.fillRect(298, 0, 4, 900);
-        g.fillRect(598, 0, 4, 900);
-        g.fillRect(0, 298, 900, 4);
-        g.fillRect(0, 598, 900, 4);
+        g.fillRoundRect(298, 0, 4, 900,20,20);
+        g.fillRoundRect(598, 0, 4, 900,20,20);
+        g.fillRoundRect(0, 298, 900, 4,20,20);
+        g.fillRoundRect(0, 598, 900, 4,20,20);
 
         // Spot #1
         if (a == 1) {
@@ -369,8 +374,8 @@ public class tttGame extends JPanel implements MouseListener {
                     repaint(); // Optional: Repaint the screen if you need to visually indicate the change
                 }
             }
-            }
-         else if (screen == 2 && players == 2) {
+        }
+        else if (screen == 2 && players == 2) {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
@@ -469,13 +474,15 @@ public class tttGame extends JPanel implements MouseListener {
                     turn = true;
                 }
             }
-        } else if (screen == 2 && players == 1) // one player game
+        }
+        else if (screen == 2 && players == 1) // one player game
         {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
                     a = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -484,6 +491,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     b = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -492,6 +500,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     c = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -500,6 +509,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     d = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -508,6 +518,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     e1 = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -516,6 +527,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     f = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -524,6 +536,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     g1 = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -532,6 +545,7 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     h = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
 
@@ -540,20 +554,24 @@ public class tttGame extends JPanel implements MouseListener {
                 if (turn) {
                     i = 1;
                     turn = false;
+                    valid_move = true;
                 }
             }
         }
         repaint();
 
-        if (players == 1 && !easy_mode) {
-            if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
-                computerMove();
+        if(valid_move) {
+            if (players == 1 && !easy_mode) {
+                if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
+                    computerMove();
+                valid_move = false;
+            }
+            if (players == 1 && easy_mode) {
+                if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
+                    easyComputerMove();
+                valid_move = false;
+            }
         }
-        if(players ==1 && easy_mode){
-            if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
-                easyComputerMove();
-        }
-
     }
 
 
@@ -565,12 +583,13 @@ public class tttGame extends JPanel implements MouseListener {
 
     @SuppressWarnings("UnusedAssignment")
     public void computerMove() {
+
         if (a == 2 && b == 2 && c == 0) {
             c = 2;
             turn = !turn;
         } else if (a == 2 && c == 2 && b == 0) {
             b = 2;
-            turn = true;
+            turn = !turn;
         } else if (b == 2 && c == 2 && a == 0) {
             a = 2;
             turn = true;
@@ -761,6 +780,8 @@ public class tttGame extends JPanel implements MouseListener {
         turn = true;
         repaint();
     }
+
+    //rolls a random number for the easy mode
     public void reRollNumber(){
         tile = (int) (Math.random() * 9) + 1;
     }
@@ -778,7 +799,7 @@ public class tttGame extends JPanel implements MouseListener {
                 else if(tile == 7 && g1 == 0) { g1 = 2; turn = true; }
                 else if(tile == 8 && h == 0) { h = 2; turn = true; }
                 else if(tile == 9 && i == 0) { i = 2; turn = true; }
-                // If none of the conditions are met the loop will  re-roll the number
+                // if none of the conditions are met the loop will  re-roll the number
             }
             repaint();
             turn = true;
@@ -789,33 +810,40 @@ public class tttGame extends JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
 
+    // draws player one win screen
     public void drawP1Win(Graphics g) {
         g.drawImage(p1Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(600, 100, 100, 50);
-        g.setColor(Color.WHITE);
-        g.drawString("Back", 620, 120);
-    }
-    public void drawP2Win(Graphics g) {
-        g.drawImage(p2Win, 0, 0, null);
-        //draw back button
-        g.setColor(Color.RED);
-        g.fillRect(600, 100, 100, 50);
+        g.fillRoundRect(600, 100, 100, 50,20,20);
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
 
+    // draws player 2 win screen
+    public void drawP2Win(Graphics g) {
+        g.drawImage(p2Win, 0, 0, null);
+        //draw back button
+        g.setColor(Color.RED);
+        g.fillRoundRect(600, 100, 100, 50,20,20);
+        g.setColor(Color.WHITE);
+        g.drawString("Back", 620, 120);
+    }
+
+    // draws the tie game screen
     public void drawTieGame(Graphics g) {
         g.drawImage(tieImage, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRect(600, 100, 100, 50);
+        g.fillRoundRect(600, 100, 100, 50,20,20);
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
-    public String readFileToString(String filePath) {
+
+    public String readTextFile(String filePath) {
+        // starts the stringbuilder
         StringBuilder contentBuilder = new StringBuilder();
+        // uses filereader to read charicter by charicter.
         try (FileReader reader = new FileReader(filePath)) {
             int character;
             while ((character = reader.read()) != -1) {
@@ -828,9 +856,9 @@ public class tttGame extends JPanel implements MouseListener {
     }
 
     public void fileWriter(){
-    // specify the file name (full path needed)
-    String fileName = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt";
-    String content = Integer.toString(coins);
+        // specify the file name (full path needed)
+        String fileName = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt";
+        String content = Integer.toString(coins);
         try {
             // creates new filewriter & buffered
             FileWriter fileWriter = new FileWriter(fileName, false);
