@@ -1,18 +1,15 @@
 import java.awt.*;
-        import javax.swing.*;
-        import java.awt.event.*;
-        import javax.imageio.*;
-        import java.io.*;
-        import javax.sound.sampled.AudioInputStream;
-        import javax.sound.sampled.AudioSystem;
-        import javax.sound.sampled.Clip;
-        import javax.sound.sampled.LineUnavailableException;
-        import javax.sound.sampled.UnsupportedAudioFileException;
-        import java.io.File;
-        import java.io.IOException;
-        import java.io.BufferedWriter;
-        import java.io.FileWriter;
-        import java.io.IOException;
+import javax.swing.*;
+import java.awt.event.*;
+import javax.imageio.*;
+import java.io.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import  javax.sound.sampled.UnsupportedAudioFileException;
+import java.util.Timer;
+import java.util.TimerTask;
 @SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
     boolean valid_move = false;
@@ -46,7 +43,10 @@ public class tttGame extends JPanel implements MouseListener {
     //END MAIN TABLE VARIABLES
     int coins;
 
+    private Timer timer;
+
     public tttGame() {
+
         addMouseListener(this);
         FileToStringReader reader = new FileToStringReader();
         String fileContents = reader.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt");
@@ -65,17 +65,19 @@ public class tttGame extends JPanel implements MouseListener {
         // runs on shutdown, to save coin value to coins.txt.
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
-                fileWriter();  // Call fileWriter on shutdown
+                fileWriter();  // call fileWriter on shutdown
             }
         }));
 
+        // actionlistner for invisible JButton.
         toggleMusicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (clip.isRunning()) {
                     clip.stop();
+
                 } else {
                     clip.start();
-                    clip.loop(Clip.LOOP_CONTINUOUSLY); //looper
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
                 }
             }
         });
@@ -91,31 +93,40 @@ public class tttGame extends JPanel implements MouseListener {
             p2Win = ImageIO.read(new File("winner2.png"));
             tieImage = ImageIO.read(new File("tieGame.png"));
         } catch (IOException e) {
-            System.out.println("IMAGE NOT FOUND, MAKE SURE YOU HAVE  \" logo.png \", \"bg.png\", \"earth.png\", \", and \" jupiter.png\" ");
+            e.printStackTrace();
         }
 
 
-        //below code snippet found from StackOverFlow
         try {
 
-            File soundFile = new File("gff.wav");
+            File soundFile = new File("LetItGo.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             clip = AudioSystem.getClip();
-
             clip.open(audioIn);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (UnsupportedAudioFileException e) {
             System.out.println("Unsupported audio file found. use a WAV file.");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Cannot Find any Audio file. named \"gff.wav\"");
+            System.out.println("Cannot Find any Audio file. named \"LetItGo.wav\"");
             e.printStackTrace();
         } catch (LineUnavailableException e) {
             System.out.println("LineUnavailableException.");
             e.printStackTrace();
         }
+
+        // starts new timer
+        timer = new Timer();
+        // makes a new task based on the timer
+        timer.scheduleAtFixedRate(new TimerTask() {
+            // thread start
+            public void run() {
+                checkWinner();
+                repaint();
+            }
+        }, 0, 1000); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
     }
-    //End Code snippet from StackOverFlow
     public void paint(Graphics g) {
         if (screen == 1) {
             startScreen(g);
@@ -129,20 +140,25 @@ public class tttGame extends JPanel implements MouseListener {
         } else if (screen == 5) {
             drawTieGame(g);
         }
-        else if(screen == 6){
+        else if(screen == 6) {
             drawSelectPlayer(g);
-            // Draw a custom button for difficulty selection
+            if (players == 1) {
             g.setColor(Color.ORANGE);
-            g.fillRoundRect(350, 500, 200, 50,20,20); // x, y, width, height of the button, round rect testong
+            g.fillRoundRect(350, 500, 200, 50, 20, 20);
             g.setColor(Color.BLACK);
-            g.drawString("Select Difficulty:", 360, 530); // Adjust x, y to fit within the button
-            if(easy_mode){
-                g.drawString("Easy Mode",450,530);}
-                else if(!easy_mode){
-                    g.drawString("Hard Mode",450,530);
+
+                g.drawString("Select Difficulty:", 360, 530); // Adjust x, y to fit within the button
+
+                if (easy_mode) {
+                    g.drawString("Easy Mode", 450, 530);
+                } else if (!easy_mode) {
+                    g.drawString("Hard Mode", 450, 530);
                 }
             }
-
+        }
+        else if (screen == 7){
+            shopScreen(g);
+        }
         }
     public void drawSelectPlayer(Graphics g) {
         g.drawImage(background, 0, 0, null);
@@ -161,11 +177,23 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.WHITE);
         g.drawString("Jupiter (P2)", 610, 655);
     }
+
+    public void shopScreen(Graphics g){
+        g.drawImage(background, 0, 0, null);
+        g.setColor(Color.WHITE);
+        g.drawString("UNDER CONSTRUCTION", 450, 450);
+    }
+
+    //JButton doesnt like showing for some reason, so i decided to put this there as it's not visable.
     public void musicButton(Graphics g){
         g.fillRoundRect(0, 0, 80, 30,20,20);
         g.setColor(Color.BLACK);
         g.drawString("Toggle Music", 0, 20);
     }
+
+
+
+    // inital screen.
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 200, 0, null);
@@ -175,7 +203,15 @@ public class tttGame extends JPanel implements MouseListener {
         g.fillRoundRect(100, 600, 300, 100,20,20);
         g.setColor(Color.WHITE);
         g.drawString("1P START", 210, 655);
-        g.drawString("COINS:" + coins,210,600 );
+
+
+        // draw shop button
+        g.setColor(Color.GREEN);
+        g.fillRoundRect(300,750,300,100,20,20);
+        g.setColor(Color.black);
+        g.drawString("Cosmetics Shop",350,800);
+        g.drawString("COINS:" + coins,350,780 );
+
 
 
         //draw 2p button
@@ -183,7 +219,10 @@ public class tttGame extends JPanel implements MouseListener {
         g.fillRoundRect(500, 600, 300, 100,20,20);
         g.setColor(Color.WHITE);
         g.drawString("2P START", 610, 655);
+
     }
+
+    // draws the board along with drawing images.
     public void drawBoard(Graphics g) {
 
         g.drawImage(background, 0, 0, null);
@@ -250,14 +289,11 @@ public class tttGame extends JPanel implements MouseListener {
         } else if (i == 2) {
             g.drawImage(oImage, 600, 600, null);
         }
-
-        checkWinner();
-        //g.drawImage(xImage,0,0,null);
-        //g.drawImage(oImage,0,0,null);
     }
 
+// checks for a winner.
     public void checkWinner() {
-        // P1 Wins: Earth
+        // p1 wi
         if (a == 1 && b == 1 && c == 1)
             screen = 3;
 
@@ -328,13 +364,13 @@ public class tttGame extends JPanel implements MouseListener {
         int x = e.getX();
         int y = e.getY();
 
-        // back to title screen button logic enhancement
+        // back to title screen button logic
         if (screen == 3 || screen == 4 || screen == 5) {
             if (x >= 600 && x <= 700 && y >= 100 && y <= 150) {
                 resetGame();
                 screen = 1; // Go back to start screen
                 repaint();
-                return; // Exit the method to avoid further processing
+                return; //
             }
         }
 
@@ -348,6 +384,9 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 6;
                 players = 2;
 
+            }
+            else if(x>=300 && x<=600 && y>=750 && y<=850){
+                screen = 7;
             }
             else if (x>=0 && x<=200 && y>=400 && y<=700){
                 easy_mode = !easy_mode;
@@ -367,7 +406,7 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 2;
             }
             if(screen == 6) {
-                // Check if the click is within the bounds of the difficulty button
+                // cbecm if the click is within the bounds of the difficulty button
                 if(x >= 350 && x <= 550 && y >= 500 && y <= 550) {
                     easy_mode = !easy_mode; // Toggle the difficulty mode
                     System.out.println("Difficulty changed to: " + (easy_mode ? "Easy" : "Hard"));
@@ -575,7 +614,7 @@ public class tttGame extends JPanel implements MouseListener {
     }
 
 
-    private void resetGame() {
+    public void resetGame() {
         // Resetting game state for a new game
         a = b = c = d = e1 = f = g1 = h = i = 0;
         turn = true; // Reset turn to player 1
