@@ -9,13 +9,12 @@ import java.util.Scanner;
 
 @SuppressWarnings({ "CallToPrintStackTrace", "deprecation" ,"ConstantValue" })
 public class Main {
-    static boolean actServer = false;
     public static void main(String[] args) throws IOException {
         Scanner scan = new Scanner(System.in);
         boolean keyGenAsk = false;
         int hoster;
         boolean hosterisValid = false;
-        boolean auth = false;
+        boolean auth = true;
         boolean doBrowser = true;
         String linodeHost = "https://marclmao.site";
         String gCloudHost = "https://interluded.tech";
@@ -95,6 +94,7 @@ public class Main {
                 }
             }
         }
+
         if (auth) {
             JFrame frame = new JFrame();
             frame.setBounds(0, 0, 900, 900);

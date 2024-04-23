@@ -13,6 +13,11 @@ import java.util.TimerTask;
 @SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
     boolean valid_move = false;
+
+    Image AD_Small;
+    Image NS_Small;
+    Image NoStylist;
+    Image AmericanDream;
     Image title;
     Image background;
     Image xImage;
@@ -24,6 +29,8 @@ public class tttGame extends JPanel implements MouseListener {
     Image tieImage;
     Image p1Win;
     Image p2Win;
+    Image DieLit_Small;
+    Image DieLit;
 
     Clip clip;
 
@@ -85,13 +92,18 @@ public class tttGame extends JPanel implements MouseListener {
 
         // Loads Images
         try {
-            title = ImageIO.read(new File("logo.png"));
-            background = ImageIO.read(new File("bg.png"));
-            xImage = ImageIO.read(new File("earth.png"));
+            title = ImageIO.read(new File("logo.jpeg"));
+            background = ImageIO.read(new File("NS.png"));
+            xImage = ImageIO.read(new File("travsmall.png"));
             oImage = ImageIO.read(new File("jupiter.png"));
             p1Win = ImageIO.read(new File("winner.png"));
             p2Win = ImageIO.read(new File("winner2.png"));
             tieImage = ImageIO.read(new File("tieGame.png"));
+            DieLit_Small = ImageIO.read(new File("DieLit.jpg"));
+            DieLit = ImageIO.read(new File("bg.png"));
+            AmericanDream = ImageIO.read(new File("AD.png"));
+            NS_Small = ImageIO.read(new File("NS_Small.png"));
+            AD_Small = ImageIO.read(new File("AD_Small.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,7 +111,7 @@ public class tttGame extends JPanel implements MouseListener {
 
         try {
 
-            File soundFile = new File("LetItGo.wav");
+            File soundFile = new File("Bane.wav");
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             clip = AudioSystem.getClip();
             clip.open(audioIn);
@@ -109,7 +121,6 @@ public class tttGame extends JPanel implements MouseListener {
             System.out.println("Unsupported audio file found. use a WAV file.");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Cannot Find any Audio file. named \"LetItGo.wav\"");
             e.printStackTrace();
         } catch (LineUnavailableException e) {
             System.out.println("LineUnavailableException.");
@@ -162,7 +173,7 @@ public class tttGame extends JPanel implements MouseListener {
         }
     public void drawSelectPlayer(Graphics g) {
         g.drawImage(background, 0, 0, null);
-        g.drawImage(title, 200, 0, null);
+        g.drawImage(title, 300, 200, null);
 
         //draw 1p button
         g.setColor(Color.blue);
@@ -181,7 +192,25 @@ public class tttGame extends JPanel implements MouseListener {
     public void shopScreen(Graphics g){
         g.drawImage(background, 0, 0, null);
         g.setColor(Color.WHITE);
-        g.drawString("UNDER CONSTRUCTION", 450, 450);
+        Font myFont = new Font ("Courier New", 1, 20);
+        g.setFont (myFont);
+        g.drawString("Buy for 10 Coins!",150,250);
+        g.drawImage(AD_Small,150,300,null);
+        g.setColor(Color.WHITE);
+        g.drawString("Buy for 20 Coins!",500,250);
+        g.drawImage(DieLit_Small,500,300,null);
+        g.setColor(Color.BLACK);
+        g.fillRoundRect(300,750,300,100,20,20);
+        g.setColor(Color.WHITE);
+        g.drawString("Return to Start Screen ",320,800);
+        g.fillRoundRect(300,650,300,100,20,20);
+        g.setColor(Color.black);
+        Font font2 = new Font("Courier New",1,15);
+        g.setFont(font2);
+        g.drawString("Return to default background",320,700);
+
+
+
     }
 
     //JButton doesnt like showing for some reason, so i decided to put this there as it's not visable.
@@ -196,7 +225,7 @@ public class tttGame extends JPanel implements MouseListener {
     // inital screen.
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
-        g.drawImage(title, 200, 0, null);
+        g.drawImage(title, 300, 200, null);
 
         //draw 1p button
         g.setColor(Color.blue);
@@ -370,7 +399,7 @@ public class tttGame extends JPanel implements MouseListener {
                 resetGame();
                 screen = 1; // Go back to start screen
                 repaint();
-                return; //
+                return;
             }
         }
 
@@ -412,6 +441,35 @@ public class tttGame extends JPanel implements MouseListener {
                     System.out.println("Difficulty changed to: " + (easy_mode ? "Easy" : "Hard"));
                     repaint(); // Optional: Repaint the screen if you need to visually indicate the change
                 }
+            }
+        }
+        else if (screen == 7){
+            if(coins >= 10){
+        if (x>=150 && x<=450 && y>=300 && y<=600 ) {
+            coins = coins - 10;
+            background = AmericanDream;
+            System.out.println("coins changed from " + (coins + 10) + "to " + coins);
+            repaint();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "You do not have enough coins!");
+        }
+        }
+        //        g.drawImage(DieLit_Small,500,300,null);
+        else if(x>= 500 && x<=800 && y<=618 && y>= 300){
+            if(coins >= 20) {
+                coins = coins - 20;
+                background = DieLit;
+                System.out.println("coins changed from " + (coins + 20) + "to " + coins);
+                repaint();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You do not have enough coins!");
+            }
+        }
+
+        else if(x>=300 && x<=600 && y>=750 && y<=850){
+                screen = 1;
             }
         }
         else if (screen == 2 && players == 2) {
