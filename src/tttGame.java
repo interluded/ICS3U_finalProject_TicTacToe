@@ -94,6 +94,7 @@ public class tttGame extends JPanel implements MouseListener {
         try {
             title = ImageIO.read(new File("logo.jpeg"));
             background = ImageIO.read(new File("NS.png"));
+            NoStylist = ImageIO.read(new File("NS.png"));
             xImage = ImageIO.read(new File("travsmall.png"));
             oImage = ImageIO.read(new File("jupiter.png"));
             p1Win = ImageIO.read(new File("winner.png"));
@@ -323,56 +324,73 @@ public class tttGame extends JPanel implements MouseListener {
 // checks for a winner.
     public void checkWinner() {
         // p1 wi
-        if (a == 1 && b == 1 && c == 1)
+        if (a == 1 && b == 1 && c == 1) {
             screen = 3;
-
-        else if (d == 1 && e1 == 1 && f == 1)
+            coins = coins + 1;
+        }
+        else if (d == 1 && e1 == 1 && f == 1) {
             screen = 3;
-
-        else if (g1 == 1 && h == 1 && i == 1)
+            coins = coins + 1;
+        }
+        else if (g1 == 1 && h == 1 && i == 1) {
             screen = 3;
-
-        else if (g1 == 1 && e1 == 1 && c == 1)
+            coins = coins + 1;
+        }
+        else if (g1 == 1 && e1 == 1 && c == 1) {
             screen = 3;
-
-        else if (a == 1 && e1 == 1 && i == 1)
+            coins = coins + 1;
+        }
+        else if (a == 1 && e1 == 1 && i == 1) {
             screen = 3;
-
-        else if (a == 1 && d == 1 && g1 == 1)
+            coins = coins + 1;
+        }
+        else if (a == 1 && d == 1 && g1 == 1) {
             screen = 3;
-
-        else if (b == 1 && e1 == 1 && h == 1)
+            coins = coins + 1;
+        }
+        else if (b == 1 && e1 == 1 && h == 1) {
             screen = 3;
-
-        else if (c == 1 && f == 1 && i == 1)
+            coins = coins + 1;
+        }
+        else if (c == 1 && f == 1 && i == 1) {
             screen = 3;
-
+            coins = coins + 1;
+        }
         // END P1 Win Statements
 
         //P2 WINS: JUPITER
-        if (a == 2 && b == 2 && c == 2)
+        if (a == 2 && b == 2 && c == 2) {
             screen = 4;
-
-        else if (d == 2 && e1 == 2 && f == 2)
+            coins = coins + 10;
+        }
+        else if (d == 2 && e1 == 2 && f == 2) {
             screen = 4;
-
-        else if (g1 == 2 && h == 2 && i == 2)
+            coins = coins + 1;
+        }
+        else if (g1 == 2 && h == 2 && i == 2) {
             screen = 4;
-
-        else if (g1 == 2 && e1 == 2 && c == 2)
+            coins = coins + 1;
+        }
+        else if (g1 == 2 && e1 == 2 && c == 2) {
             screen = 4;
-
-        else if (a == 2 && e1 == 2 && i == 2)
+            coins = coins + 1;
+        }
+        else if (a == 2 && e1 == 2 && i == 2) {
             screen = 4;
-
-        else if (a == 2 && d == 2 && g1 == 2)
+            coins = coins + 1;
+        }
+        else if (a == 2 && d == 2 && g1 == 2) {
             screen = 4;
-
-        else if (b == 2 && e1 == 2 && h == 2)
+            coins = coins + 1;
+        }
+        else if (b == 2 && e1 == 2 && h == 2) {
             screen = 4;
-
-        else if (c == 2 && f == 2 && i == 2)
+            coins = coins + 1;
+        }
+        else if (c == 2 && f == 2 && i == 2) {
             screen = 4;
+            coins = coins + 1;
+        }
         // END P2 WIN STATEMENTS
 
 
@@ -444,31 +462,36 @@ public class tttGame extends JPanel implements MouseListener {
             }
         }
         else if (screen == 7){
-            if(coins >= 10){
-        if (x>=150 && x<=450 && y>=300 && y<=600 ) {
-            coins = coins - 10;
-            background = AmericanDream;
-            System.out.println("coins changed from " + (coins + 10) + "to " + coins);
-            repaint();
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "You do not have enough coins!");
-        }
-        }
-        //        g.drawImage(DieLit_Small,500,300,null);
-        else if(x>= 500 && x<=800 && y<=618 && y>= 300){
+
+                if (x >= 150 && x <= 450 && y >= 300 && y <= 600) {
+                    if(coins >= 10) {
+                    coins = coins - 10;
+                    background = AmericanDream;
+                    System.out.println("coins changed from " + (coins + 10) + "to " + coins);
+                    repaint();
+                } else {
+                    JOptionPane.showMessageDialog(this, "You do not have enough coins!");
+                }
+            }
+
+            if(x>= 500 && x<=800 && y<=618 && y>= 300){
             if(coins >= 20) {
                 coins = coins - 20;
                 background = DieLit;
                 System.out.println("coins changed from " + (coins + 20) + "to " + coins);
                 repaint();
             }
-            else{
+            else {
                 JOptionPane.showMessageDialog(this, "You do not have enough coins!");
             }
         }
 
-        else if(x>=300 && x<=600 && y>=750 && y<=850){
+        else if(x>=300 && x<=600 && y>=650 && y<=750){
+            background = NoStylist;
+            repaint();
+            }
+
+            else if(x>=300 && x<=600 && y>=750 && y<=850){
                 screen = 1;
             }
         }
@@ -678,230 +701,176 @@ public class tttGame extends JPanel implements MouseListener {
         turn = true; // Reset turn to player 1
     }
 
-    @SuppressWarnings("UnusedAssignment")
     public void computerMove() {
 
         if (a == 2 && b == 2 && c == 0) {
             c = 2;
-            turn = !turn;
         } else if (a == 2 && c == 2 && b == 0) {
             b = 2;
-            turn = !turn;
         } else if (b == 2 && c == 2 && a == 0) {
             a = 2;
-            turn = true;
         } else if (d == 2 && e1 == 2 && f == 0) {
             f = 2;
-            turn = true;
         } else if (d == 2 && f == 2 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 2 && f == 2 && d == 0) {
             d = 2;
-            turn = true;
         } else if (g1 == 2 && h == 2 && i == 0) {
             i = 2;
-            turn = true;
         } else if (g1 == 2 && i == 2 && h == 0) {
             h = 2;
-            turn = true;
         } else if (h == 2 && i == 2 && g1 == 0) {
             g1 = 2;
-            turn = true;
         } else if (a == 2 && d == 2 && g1 == 0) {
             g1 = 2;
-            turn = true;
         } else if (a == 2 && g1 == 2 && d == 0) {
             d = 2;
-            turn = true;
         } else if (d == 2 && g1 == 2 && a == 0) {
             a = 2;
-            turn = true;
         } else if (b == 2 && e1 == 2 && h == 0) {
             h = 2;
-            turn = true;
         } else if (b == 2 && h == 2 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 2 && h == 2 && b == 0) {
             b = 2;
-            turn = true;
         } else if (c == 2 && f == 2 && i == 0) {
             i = 2;
-            turn = true;
         } else if (c == 2 && i == 2 && f == 0) {
             f = 2;
-            turn = true;
         } else if (f == 2 && i == 2 && c == 0) {
             c = 2;
-            turn = true;
         } else if (a == 2 && e1 == 2 && i == 0) {
             i = 2;
-            turn = true;
         } else if (a == 2 && i == 2 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 2 && i == 2 && a == 0) {
             a = 2;
-            turn = true;
         } else if (g1 == 2 && e1 == 2 && c == 0) {
             c = 2;
-            turn = true;
         } else if (g1 == 2 && c == 2 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 2 && c == 2 && g1 == 0) {
             g1 = 2;
-            turn = true;
         }
         else if (a==0 && b==0 && c==1 && d==0 && e1==2 && f==0 && g1==0 && h==0 && i==0){
             h=2;
-            turn = true;
         }
         else if(a==1 && b==0 && c==0 && d==0 && e1==2 && f==0 && g1==0 && h==0 && i==0){
             h=2;
-            turn = true;
         }
 
         // blocks
         else if (a == 1 && b == 1 && c == 0) {
             c = 2;
-            turn = true;
         } else if (a == 1 && c == 1 && b == 0) {
             b = 2;
-            turn = true;
         } else if (b == 1 && c == 1 && a == 0) {
             a = 2;
-            turn = true;
         } else if (d == 1 && e1 == 1 && f == 0) {
             f = 2;
-            turn = true;
         } else if (d == 1 && f == 1 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 1 && f == 1 && d == 0) {
             d = 2;
-            turn = true;
         } else if (g1 == 1 && h == 1 && i == 0) {
             i = 2;
-            turn = true;
         } else if (g1 == 1 && i == 1 && h == 0) {
             h = 2;
-            turn = true;
         } else if (h == 1 && i == 1 && g1 == 0) {
             g1 = 2;
-            turn = true;
         } else if (a == 1 && d == 1 && g1 == 0) {
             g1 = 2;
-            turn = true;
         } else if (a == 1 && g1 == 1 && d == 0) {
             d = 2;
-            turn = true;
         } else if (d == 1 && g1 == 1 && a == 0) {
             a = 2;
-            turn = true;
         } else if (b == 1 && e1 == 1 && h == 0) {
             h = 2;
-            turn = true;
         } else if (b == 1 && h == 1 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 1 && h == 1 && b == 0) {
             b = 2;
-            turn = true;
         } else if (c == 1 && f == 1 && i == 0) {
             i = 2;
-            turn = true;
         } else if (c == 1 && i == 1 && f == 0) {
             f = 2;
-            turn = true;
         } else if (f == 1 && i == 1 && c == 0) {
             c = 2;
-            turn = true;
         } else if (a == 1 && e1 == 1 && i == 0) {
             i = 2;
-            turn = true;
         } else if (a == 1 && i == 1 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 1 && i == 1 && a == 0) {
             a = 2;
-            turn = true;
         } else if (g1 == 1 && e1 == 1 && c == 0) {
             c = 2;
-            turn = true;
         } else if (g1 == 1 && c == 1 && e1 == 0) {
             e1 = 2;
-            turn = true;
         } else if (e1 == 1 && c == 1 && g1 == 0) {
             g1 = 2;
-            turn = true;
         }
 
         // go center
         else if (e1 == 0) {
             e1 = 2;
-            turn = true;
         }
 
         // corners
         else if (a == 0) {
             a = 2;
-            turn = true;
         } else if (c == 0) {
             c = 2;
-            turn = true;
         } else if (g1 == 0) {
             g1 = 2;
-            turn = true;
         } else if (i == 0) {
             i = 2;
-            turn = true;
         }
 
         // sides
         else if (b == 0) {
             b = 2;
-            turn = true;
         } else if (d == 0) {
             d = 2;
-            turn = true;
         } else if (f == 0) {
             f = 2;
-            turn = true;
         } else if (h == 0) {
             h = 2;
-            turn = true;
         }
 
         turn = true;
         repaint();
     }
 
-    //rolls a random number for the easy mode
-    public void reRollNumber(){
-        tile = (int) (Math.random() * 9) + 1;
-    }
+    // easy computer move, (just random, 0 strategy involved)
     public void easyComputerMove() {
-        if (players == 1 && easy_mode) {
+        if (players == 1 && easy_mode && !turn) {  // computer move easy and computer turn
+            boolean moveMade = false;
+            int attempts = 0;  //  avoids potential infinite loop if all spots are filled
 
-            while (!turn) {
-                reRollNumber();
-                if(tile == 1 && a == 0) { a = 2; turn = true; }
-                else if(tile == 2 && b == 0) { b = 2; turn = true; }
-                else if(tile == 3 && c == 0) { c = 2; turn = true; }
-                else if(tile == 4 && d == 0) { d = 2; turn = true; }
-                else if(tile == 5 && e1 == 0) { e1 = 2; turn = true; }
-                else if(tile == 6 && f == 0) { f = 2; turn = true; }
-                else if(tile == 7 && g1 == 0) { g1 = 2; turn = true; }
-                else if(tile == 8 && h == 0) { h = 2; turn = true; }
-                else if(tile == 9 && i == 0) { i = 2; turn = true; }
-                // if none of the conditions are met the loop will  re-roll the number
+            while (!moveMade && attempts < 50) {  // limits to 50 rolls
+                int tile = (int) (Math.random() * 9) + 1; // random tile select
+
+                // Check if the selected tile is empty and place the marker
+                if (tile == 1 && a == 0) { a = 2; moveMade = true; }
+                else if (tile == 2 && b == 0) { b = 2; moveMade = true; }
+                else if (tile == 3 && c == 0) { c = 2; moveMade = true; }
+                else if (tile == 4 && d == 0) { d = 2; moveMade = true; }
+                else if (tile == 5 && e1 == 0) { e1 = 2; moveMade = true; }
+                else if (tile == 6 && f == 0) { f = 2; moveMade = true; }
+                else if (tile == 7 && g1 == 0) { g1 = 2; moveMade = true; }
+                else if (tile == 8 && h == 0) { h = 2; moveMade = true; }
+                else if (tile == 9 && i == 0) { i = 2; moveMade = true; }
+
+                attempts++;
             }
-            repaint();
-            turn = true;
+
+            if (moveMade) {
+                turn = true;  // change turn back to the player
+                repaint();    // repaint the board to show the new move
+            }
         }
     }
+
 
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
@@ -937,6 +906,7 @@ public class tttGame extends JPanel implements MouseListener {
         g.drawString("Back", 620, 120);
     }
 
+    //reads text file in at end of the
     public String readTextFile(String filePath) {
         // starts the stringbuilder
         StringBuilder contentBuilder = new StringBuilder();
@@ -951,7 +921,7 @@ public class tttGame extends JPanel implements MouseListener {
         }
         return contentBuilder.toString();
     }
-
+// writes coins value to same file on exit.
     public void fileWriter(){
         // specify the file name (full path needed)
         String fileName = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt";
