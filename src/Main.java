@@ -10,6 +10,8 @@ import java.util.Scanner;
 @SuppressWarnings({ "CallToPrintStackTrace", "deprecation" ,"ConstantValue" })
 public class Main {
     public static void main(String[] args) throws IOException {
+        String os = System.getProperty("os.name");
+        System.out.print(os);
         Scanner scan = new Scanner(System.in);
         boolean keyGenAsk = false;
         int hoster;

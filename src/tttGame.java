@@ -10,10 +10,12 @@ import javax.sound.sampled.LineUnavailableException;
 import  javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.Timer;
 import java.util.TimerTask;
+
 @SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
 public class tttGame extends JPanel implements MouseListener {
     boolean valid_move = false;
-
+    boolean owns_AD = false;
+    boolean owns_DL = false;
     Image AD_Small;
     Image NS_Small;
     Image NoStylist;
@@ -49,14 +51,14 @@ public class tttGame extends JPanel implements MouseListener {
     int i = 0;
     //END MAIN TABLE VARIABLES
     int coins;
-
+    String fileContents = "src/coins.txt";
+String os =System.getProperty("os.name");
     private Timer timer;
 
     public tttGame() {
-
         addMouseListener(this);
         FileToStringReader reader = new FileToStringReader();
-        String fileContents = reader.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt");
+        String fileContents = reader.readFileToString("src/coins.txt");
         System.out.println("File Contents:");
         System.out.println(fileContents);
         int coinsMethod = Integer.parseInt(fileContents);
@@ -68,6 +70,8 @@ public class tttGame extends JPanel implements MouseListener {
         toggleMusicButton = new JButton("Toggle Music");
         toggleMusicButton.setBounds(10, 10, 120, 30); //  the button in the top left corner
         add(toggleMusicButton);
+        // doing this because it appears weirdly on windows and im trying to avoid any possible inconsistancies between operating systems
+        toggleMusicButton.setVisible(true);
 
         // runs on shutdown, to save coin value to coins.txt.
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -137,7 +141,7 @@ public class tttGame extends JPanel implements MouseListener {
                 checkWinner();
                 repaint();
             }
-        }, 0, 1000); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
+        }, 0, 100); // 0  delay at the start, 0.1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
     }
     public void paint(Graphics g) {
         if (screen == 1) {
@@ -464,21 +468,32 @@ public class tttGame extends JPanel implements MouseListener {
         else if (screen == 7){
 
                 if (x >= 150 && x <= 450 && y >= 300 && y <= 600) {
-                    if(coins >= 10) {
+                    if(coins >= 10 && !owns_AD ) {
                     coins = coins - 10;
                     background = AmericanDream;
                     System.out.println("coins changed from " + (coins + 10) + "to " + coins);
                     repaint();
-                } else {
+                    owns_AD = true;
+                }
+                    else if (owns_AD){
+                        background = AmericanDream;
+                        repaint();
+                    }
+                    else {
                     JOptionPane.showMessageDialog(this, "You do not have enough coins!");
                 }
             }
 
             if(x>= 500 && x<=800 && y<=618 && y>= 300){
-            if(coins >= 20) {
+            if(coins >= 20 && !owns_DL) {
                 coins = coins - 20;
                 background = DieLit;
                 System.out.println("coins changed from " + (coins + 20) + "to " + coins);
+                repaint();
+                owns_DL = true;
+            }
+            else if (owns_DL){
+                background = DieLit;
                 repaint();
             }
             else {
@@ -923,8 +938,8 @@ public class tttGame extends JPanel implements MouseListener {
     }
 // writes coins value to same file on exit.
     public void fileWriter(){
-        // specify the file name (full path needed)
-        String fileName = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt";
+        // specify the file name (full path needed if on unix/linux)
+        String fileName = "src/coins.txt";
         String content = Integer.toString(coins);
         try {
             // creates new filewriter & buffered
