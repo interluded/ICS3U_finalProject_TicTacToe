@@ -7,15 +7,18 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
-import  javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.Timer;
 import java.util.TimerTask;
-
-@SuppressWarnings({"CallToPrintStackTrace", "Convert2Lambda"})
+@SuppressWarnings({
+        "CallToPrintStackTrace",
+        "Convert2Lambda"
+})
 public class tttGame extends JPanel implements MouseListener {
     boolean valid_move = false;
-    boolean owns_AD = false;
-    boolean owns_DL = false;
+    String ADtxtContent = "";
+
+    String DLtxtContent = "";
     Image AD_Small;
     Image NS_Small;
     Image NoStylist;
@@ -24,7 +27,7 @@ public class tttGame extends JPanel implements MouseListener {
     Image background;
     Image xImage;
     Image oImage;
-    int tile = (int) (Math.random() * 9) + 1;
+    int tile = (int)(Math.random() * 9) + 1;
     boolean easy_mode = true;
     int screen = 1;
     int players;
@@ -35,7 +38,8 @@ public class tttGame extends JPanel implements MouseListener {
     Image DieLit;
 
     Clip clip;
-
+    boolean AD_owned;
+    boolean DL_owned;
 
     boolean turn = true; //decides who's turn it is (true = 1) (false = 0)
 
@@ -51,18 +55,29 @@ public class tttGame extends JPanel implements MouseListener {
     int i = 0;
     //END MAIN TABLE VARIABLES
     int coins;
-    String fileContents = "src/coins.txt";
-String os =System.getProperty("os.name");
+
     private Timer timer;
 
     public tttGame() {
         addMouseListener(this);
         FileToStringReader reader = new FileToStringReader();
-        String fileContents = reader.readFileToString("src/coins.txt");
+        String fileContents = reader.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt");
         System.out.println("File Contents:");
         System.out.println(fileContents);
         int coinsMethod = Integer.parseInt(fileContents);
         System.out.println(coinsMethod);
+
+
+        FileToStringReader reader1 = new FileToStringReader();
+        ADtxtContent = reader1.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/AD.txt");
+        System.out.println("File Contents:");
+        System.out.println(ADtxtContent);
+
+        FileToStringReader reader2 = new FileToStringReader();
+        DLtxtContent = reader1.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/DL.txt");
+        System.out.println("File Contents:");
+        System.out.println(DLtxtContent);
+
         coins = coinsMethod;
         JButton toggleMusicButton;
         setLayout(null);
@@ -70,13 +85,11 @@ String os =System.getProperty("os.name");
         toggleMusicButton = new JButton("Toggle Music");
         toggleMusicButton.setBounds(10, 10, 120, 30); //  the button in the top left corner
         add(toggleMusicButton);
-        // doing this because it appears weirdly on windows and im trying to avoid any possible inconsistancies between operating systems
-        toggleMusicButton.setVisible(true);
 
         // runs on shutdown, to save coin value to coins.txt.
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
-                fileWriter();  // call fileWriter on shutdown
+                fileWriter(); // call fileWriter on shutdown
             }
         }));
 
@@ -92,7 +105,6 @@ String os =System.getProperty("os.name");
                 }
             }
         });
-
 
         // Loads Images
         try {
@@ -112,7 +124,6 @@ String os =System.getProperty("os.name");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         try {
 
@@ -141,8 +152,9 @@ String os =System.getProperty("os.name");
                 checkWinner();
                 repaint();
             }
-        }, 0, 100); // 0  delay at the start, 0.1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
+        }, 0, 1000); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
     }
+
     public void paint(Graphics g) {
         if (screen == 1) {
             startScreen(g);
@@ -155,13 +167,12 @@ String os =System.getProperty("os.name");
             drawP2Win(g);
         } else if (screen == 5) {
             drawTieGame(g);
-        }
-        else if(screen == 6) {
+        } else if (screen == 6) {
             drawSelectPlayer(g);
             if (players == 1) {
-            g.setColor(Color.ORANGE);
-            g.fillRoundRect(350, 500, 200, 50, 20, 20);
-            g.setColor(Color.BLACK);
+                g.setColor(Color.ORANGE);
+                g.fillRoundRect(350, 500, 200, 50, 20, 20);
+                g.setColor(Color.BLACK);
 
                 g.drawString("Select Difficulty:", 360, 530); // Adjust x, y to fit within the button
 
@@ -171,61 +182,56 @@ String os =System.getProperty("os.name");
                     g.drawString("Hard Mode", 450, 530);
                 }
             }
-        }
-        else if (screen == 7){
+        } else if (screen == 7) {
             shopScreen(g);
         }
-        }
+    }
+
     public void drawSelectPlayer(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 300, 200, null);
 
         //draw 1p button
         g.setColor(Color.blue);
-        g.fillRoundRect(100, 600, 300, 100,20,20);
+        g.fillRoundRect(100, 600, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("Earth (P1)", 210, 655);
 
-
         //draw 2p button
         g.setColor(Color.RED);
-        g.fillRoundRect(500, 600, 300, 100,20,20);
+        g.fillRoundRect(500, 600, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("Jupiter (P2)", 610, 655);
     }
 
-    public void shopScreen(Graphics g){
+    public void shopScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.setColor(Color.WHITE);
-        Font myFont = new Font ("Courier New", 1, 20);
-        g.setFont (myFont);
-        g.drawString("Buy for 10 Coins!",150,250);
-        g.drawImage(AD_Small,150,300,null);
+        Font myFont = new Font("Courier New", 1, 20);
+        g.setFont(myFont);
+        g.drawString("Buy for 10 Coins!", 150, 250);
+        g.drawImage(AD_Small, 150, 300, null);
         g.setColor(Color.WHITE);
-        g.drawString("Buy for 20 Coins!",500,250);
-        g.drawImage(DieLit_Small,500,300,null);
+        g.drawString("Buy for 20 Coins!", 500, 250);
+        g.drawImage(DieLit_Small, 500, 300, null);
         g.setColor(Color.BLACK);
-        g.fillRoundRect(300,750,300,100,20,20);
+        g.fillRoundRect(300, 750, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
-        g.drawString("Return to Start Screen ",320,800);
-        g.fillRoundRect(300,650,300,100,20,20);
+        g.drawString("Return to Start Screen ", 320, 800);
+        g.fillRoundRect(300, 650, 300, 100, 20, 20);
         g.setColor(Color.black);
-        Font font2 = new Font("Courier New",1,15);
+        Font font2 = new Font("Courier New", 1, 15);
         g.setFont(font2);
-        g.drawString("Return to default background",320,700);
-
-
+        g.drawString("Return to default background", 320, 700);
 
     }
 
     //JButton doesnt like showing for some reason, so i decided to put this there as it's not visable.
-    public void musicButton(Graphics g){
-        g.fillRoundRect(0, 0, 80, 30,20,20);
+    public void musicButton(Graphics g) {
+        g.fillRoundRect(0, 0, 80, 30, 20, 20);
         g.setColor(Color.BLACK);
         g.drawString("Toggle Music", 0, 20);
     }
-
-
 
     // inital screen.
     public void startScreen(Graphics g) {
@@ -234,23 +240,20 @@ String os =System.getProperty("os.name");
 
         //draw 1p button
         g.setColor(Color.blue);
-        g.fillRoundRect(100, 600, 300, 100,20,20);
+        g.fillRoundRect(100, 600, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("1P START", 210, 655);
 
-
         // draw shop button
         g.setColor(Color.GREEN);
-        g.fillRoundRect(300,750,300,100,20,20);
+        g.fillRoundRect(300, 750, 300, 100, 20, 20);
         g.setColor(Color.black);
-        g.drawString("Cosmetics Shop",350,800);
-        g.drawString("COINS:" + coins,350,780 );
-
-
+        g.drawString("Cosmetics Shop", 350, 800);
+        g.drawString("COINS:" + coins, 350, 780);
 
         //draw 2p button
         g.setColor(Color.RED);
-        g.fillRoundRect(500, 600, 300, 100,20,20);
+        g.fillRoundRect(500, 600, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("2P START", 610, 655);
 
@@ -261,10 +264,10 @@ String os =System.getProperty("os.name");
 
         g.drawImage(background, 0, 0, null);
         g.setColor(Color.WHITE);
-        g.fillRoundRect(298, 0, 4, 900,20,20);
-        g.fillRoundRect(598, 0, 4, 900,20,20);
-        g.fillRoundRect(0, 298, 900, 4,20,20);
-        g.fillRoundRect(0, 598, 900, 4,20,20);
+        g.fillRoundRect(298, 0, 4, 900, 20, 20);
+        g.fillRoundRect(598, 0, 4, 900, 20, 20);
+        g.fillRoundRect(0, 298, 900, 4, 20, 20);
+        g.fillRoundRect(0, 598, 900, 4, 20, 20);
 
         // Spot #1
         if (a == 1) {
@@ -325,38 +328,31 @@ String os =System.getProperty("os.name");
         }
     }
 
-// checks for a winner.
+    // checks for a winner.
     public void checkWinner() {
         // p1 wi
         if (a == 1 && b == 1 && c == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (d == 1 && e1 == 1 && f == 1) {
+        } else if (d == 1 && e1 == 1 && f == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (g1 == 1 && h == 1 && i == 1) {
+        } else if (g1 == 1 && h == 1 && i == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (g1 == 1 && e1 == 1 && c == 1) {
+        } else if (g1 == 1 && e1 == 1 && c == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (a == 1 && e1 == 1 && i == 1) {
+        } else if (a == 1 && e1 == 1 && i == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (a == 1 && d == 1 && g1 == 1) {
+        } else if (a == 1 && d == 1 && g1 == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (b == 1 && e1 == 1 && h == 1) {
+        } else if (b == 1 && e1 == 1 && h == 1) {
             screen = 3;
             coins = coins + 1;
-        }
-        else if (c == 1 && f == 1 && i == 1) {
+        } else if (c == 1 && f == 1 && i == 1) {
             screen = 3;
             coins = coins + 1;
         }
@@ -366,37 +362,29 @@ String os =System.getProperty("os.name");
         if (a == 2 && b == 2 && c == 2) {
             screen = 4;
             coins = coins + 10;
-        }
-        else if (d == 2 && e1 == 2 && f == 2) {
+        } else if (d == 2 && e1 == 2 && f == 2) {
             screen = 4;
             coins = coins + 1;
-        }
-        else if (g1 == 2 && h == 2 && i == 2) {
+        } else if (g1 == 2 && h == 2 && i == 2) {
             screen = 4;
             coins = coins + 1;
-        }
-        else if (g1 == 2 && e1 == 2 && c == 2) {
+        } else if (g1 == 2 && e1 == 2 && c == 2) {
             screen = 4;
             coins = coins + 1;
-        }
-        else if (a == 2 && e1 == 2 && i == 2) {
+        } else if (a == 2 && e1 == 2 && i == 2) {
             screen = 4;
             coins = coins + 1;
-        }
-        else if (a == 2 && d == 2 && g1 == 2) {
+        } else if (a == 2 && d == 2 && g1 == 2) {
             screen = 4;
             coins = coins + 1;
-        }
-        else if (b == 2 && e1 == 2 && h == 2) {
+        } else if (b == 2 && e1 == 2 && h == 2) {
             screen = 4;
             coins = coins + 1;
-        }
-        else if (c == 2 && f == 2 && i == 2) {
+        } else if (c == 2 && f == 2 && i == 2) {
             screen = 4;
             coins = coins + 1;
         }
         // END P2 WIN STATEMENTS
-
 
         //BEGIN TIE STATEMENTS
 
@@ -407,10 +395,10 @@ String os =System.getProperty("os.name");
             }
         }
 
-
     }
 
     public void mouseClicked(MouseEvent e) {}
+
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
@@ -425,8 +413,6 @@ String os =System.getProperty("os.name");
             }
         }
 
-
-
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
                 screen = 6;
@@ -435,11 +421,9 @@ String os =System.getProperty("os.name");
                 screen = 6;
                 players = 2;
 
-            }
-            else if(x>=300 && x<=600 && y>=750 && y<=850){
+            } else if (x >= 300 && x <= 600 && y >= 750 && y <= 850) {
                 screen = 7;
-            }
-            else if (x>=0 && x<=200 && y>=400 && y<=700){
+            } else if (x >= 0 && x <= 200 && y >= 400 && y <= 700) {
                 easy_mode = !easy_mode;
                 System.out.println(easy_mode);
             }
@@ -456,61 +440,56 @@ String os =System.getProperty("os.name");
                 }
                 screen = 2;
             }
-            if(screen == 6) {
-                // cbecm if the click is within the bounds of the difficulty button
-                if(x >= 350 && x <= 550 && y >= 500 && y <= 550) {
+            if (screen == 6) {
+                // check if the click is within the bounds of the difficulty button
+                if (x >= 350 && x <= 550 && y >= 500 && y <= 550) {
                     easy_mode = !easy_mode; // Toggle the difficulty mode
                     System.out.println("Difficulty changed to: " + (easy_mode ? "Easy" : "Hard"));
                     repaint(); // Optional: Repaint the screen if you need to visually indicate the change
                 }
             }
-        }
-        else if (screen == 7){
+        } else if (screen == 7) {
 
-                if (x >= 150 && x <= 450 && y >= 300 && y <= 600) {
-                    if(coins >= 10 && !owns_AD ) {
+            if (x >= 150 && x <= 450 && y >= 300 && y <= 600) {
+                if (!AD_owned && coins >= 10 && !ADtxtContent.equalsIgnoreCase("AD_owned")) {
                     coins = coins - 10;
                     background = AmericanDream;
                     System.out.println("coins changed from " + (coins + 10) + "to " + coins);
                     repaint();
-                    owns_AD = true;
-                }
-                    else if (owns_AD){
-                        background = AmericanDream;
-                        repaint();
-                    }
-                    else {
+                    fileWriterAD();
+                    AD_owned = true;
+                } else if (AD_owned || ADtxtContent.equalsIgnoreCase("AD_owned")) {
+                    background = AmericanDream;
+                    repaint();
+                } else {
                     JOptionPane.showMessageDialog(this, "You do not have enough coins!");
                 }
             }
 
-            if(x>= 500 && x<=800 && y<=618 && y>= 300){
-            if(coins >= 20 && !owns_DL) {
-                coins = coins - 20;
-                background = DieLit;
-                System.out.println("coins changed from " + (coins + 20) + "to " + coins);
-                repaint();
-                owns_DL = true;
-            }
-            else if (owns_DL){
-                background = DieLit;
-                repaint();
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "You do not have enough coins!");
-            }
-        }
+            if (x >= 500 && x <= 800 && y >= 300 && y <= 618) {
+                if (!DL_owned && !DLtxtContent.equalsIgnoreCase("DL_owned")) {
+                    if (coins >= 20) {
+                        coins -= 20;  // Deduct coins
+                        background = DieLit;  // Update background
+                        System.out.println("Coins changed to: " + coins);
+                        repaint();
+                        DL_owned = true;  // Mark as owned
+                        fileWriterDL();  // Write ownership to file
+                    } else {
+                        JOptionPane.showMessageDialog(this, "You do not have enough coins!");
+                    }
+                } else {
+                    background = DieLit;  // Set background if already owned
+                    repaint();
+                }
 
-        else if(x>=300 && x<=600 && y>=650 && y<=750){
-            background = NoStylist;
-            repaint();
-            }
-
-            else if(x>=300 && x<=600 && y>=750 && y<=850){
+            } else if (x >= 300 && x <= 600 && y >= 650 && y <= 750) {
+                background = NoStylist;
+                repaint();
+            } else if (x >= 300 && x <= 600 && y >= 750 && y <= 850) {
                 screen = 1;
             }
-        }
-        else if (screen == 2 && players == 2) {
+        } else if (screen == 2 && players == 2) {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
                 if (turn) {
@@ -609,8 +588,7 @@ String os =System.getProperty("os.name");
                     turn = true;
                 }
             }
-        }
-        else if (screen == 2 && players == 1) // one player game
+        } else if (screen == 2 && players == 1) // one player game
         {
             // Spot 1
             if (x <= 300 && y <= 300 && a == 0) {
@@ -695,7 +673,7 @@ String os =System.getProperty("os.name");
         }
         repaint();
 
-        if(valid_move) {
+        if (valid_move) {
             if (players == 1 && !easy_mode) {
                 if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
                     computerMove();
@@ -708,7 +686,6 @@ String os =System.getProperty("os.name");
             }
         }
     }
-
 
     public void resetGame() {
         // Resetting game state for a new game
@@ -766,12 +743,10 @@ String os =System.getProperty("os.name");
             e1 = 2;
         } else if (e1 == 2 && c == 2 && g1 == 0) {
             g1 = 2;
-        }
-        else if (a==0 && b==0 && c==1 && d==0 && e1==2 && f==0 && g1==0 && h==0 && i==0){
-            h=2;
-        }
-        else if(a==1 && b==0 && c==0 && d==0 && e1==2 && f==0 && g1==0 && h==0 && i==0){
-            h=2;
+        } else if (a == 0 && b == 0 && c == 1 && d == 0 && e1 == 2 && f == 0 && g1 == 0 && h == 0 && i == 0) {
+            h = 2;
+        } else if (a == 1 && b == 0 && c == 0 && d == 0 && e1 == 2 && f == 0 && g1 == 0 && h == 0 && i == 0) {
+            h = 2;
         }
 
         // blocks
@@ -858,37 +833,57 @@ String os =System.getProperty("os.name");
 
     // easy computer move, (just random, 0 strategy involved)
     public void easyComputerMove() {
-        if (players == 1 && easy_mode && !turn) {  // computer move easy and computer turn
+        if (players == 1 && easy_mode && !turn) { // computer move easy and computer turn
             boolean moveMade = false;
-            int attempts = 0;  //  avoids potential infinite loop if all spots are filled
+            int attempts = 0; //  avoids potential infinite loop if all spots are filled
 
-            while (!moveMade && attempts < 50) {  // limits to 50 rolls
-                int tile = (int) (Math.random() * 9) + 1; // random tile select
+            while (!moveMade && attempts < 50) { // limits to 50 rolls
+                int tile = (int)(Math.random() * 9) + 1; // random tile select
 
                 // Check if the selected tile is empty and place the marker
-                if (tile == 1 && a == 0) { a = 2; moveMade = true; }
-                else if (tile == 2 && b == 0) { b = 2; moveMade = true; }
-                else if (tile == 3 && c == 0) { c = 2; moveMade = true; }
-                else if (tile == 4 && d == 0) { d = 2; moveMade = true; }
-                else if (tile == 5 && e1 == 0) { e1 = 2; moveMade = true; }
-                else if (tile == 6 && f == 0) { f = 2; moveMade = true; }
-                else if (tile == 7 && g1 == 0) { g1 = 2; moveMade = true; }
-                else if (tile == 8 && h == 0) { h = 2; moveMade = true; }
-                else if (tile == 9 && i == 0) { i = 2; moveMade = true; }
+                if (tile == 1 && a == 0) {
+                    a = 2;
+                    moveMade = true;
+                } else if (tile == 2 && b == 0) {
+                    b = 2;
+                    moveMade = true;
+                } else if (tile == 3 && c == 0) {
+                    c = 2;
+                    moveMade = true;
+                } else if (tile == 4 && d == 0) {
+                    d = 2;
+                    moveMade = true;
+                } else if (tile == 5 && e1 == 0) {
+                    e1 = 2;
+                    moveMade = true;
+                } else if (tile == 6 && f == 0) {
+                    f = 2;
+                    moveMade = true;
+                } else if (tile == 7 && g1 == 0) {
+                    g1 = 2;
+                    moveMade = true;
+                } else if (tile == 8 && h == 0) {
+                    h = 2;
+                    moveMade = true;
+                } else if (tile == 9 && i == 0) {
+                    i = 2;
+                    moveMade = true;
+                }
 
                 attempts++;
             }
 
             if (moveMade) {
-                turn = true;  // change turn back to the player
-                repaint();    // repaint the board to show the new move
+                turn = true; // change turn back to the player
+                repaint(); // repaint the board to show the new move
             }
         }
     }
 
-
     public void mouseReleased(MouseEvent e) {}
+
     public void mouseEntered(MouseEvent e) {}
+
     public void mouseExited(MouseEvent e) {}
 
     // draws player one win screen
@@ -896,7 +891,7 @@ String os =System.getProperty("os.name");
         g.drawImage(p1Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRoundRect(600, 100, 100, 50,20,20);
+        g.fillRoundRect(600, 100, 100, 50, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
@@ -906,7 +901,7 @@ String os =System.getProperty("os.name");
         g.drawImage(p2Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRoundRect(600, 100, 100, 50,20,20);
+        g.fillRoundRect(600, 100, 100, 50, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
@@ -916,7 +911,7 @@ String os =System.getProperty("os.name");
         g.drawImage(tieImage, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
-        g.fillRoundRect(600, 100, 100, 50,20,20);
+        g.fillRoundRect(600, 100, 100, 50, 20, 20);
         g.setColor(Color.WHITE);
         g.drawString("Back", 620, 120);
     }
@@ -936,10 +931,11 @@ String os =System.getProperty("os.name");
         }
         return contentBuilder.toString();
     }
-// writes coins value to same file on exit.
-    public void fileWriter(){
-        // specify the file name (full path needed if on unix/linux)
-        String fileName = "src/coins.txt";
+
+    // writes coins value to same file on exit.
+    public void fileWriter() {
+        // specify the file name (full path needed)
+        String fileName = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt";
         String content = Integer.toString(coins);
         try {
             // creates new filewriter & buffered
@@ -955,6 +951,44 @@ String os =System.getProperty("os.name");
             System.out.println("An error occurred while writing to the file: " + e.getMessage());
         }
     }
+
+    public void fileWriterAD() {
+        // specify the file name (full path needed)
+        String fileNameAD = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/AD.txt";
+        String contentAD = "AD_owned";
+        try {
+            // creates new filewriter & buffered
+            FileWriter fileWriter = new FileWriter(fileNameAD, false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(contentAD);
+            //closes when done
+            bufferedWriter.close();
+
+
+            //debug
+            System.out.println("file written successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
+
+    public void fileWriterDL() {
+        // specify the file name (full path needed)
+        String fileNameDL = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/DL.txt";
+        String contentDL = "DL_owned";
+        try {
+            // creates new filewriter & buffered
+            FileWriter fileWriter = new FileWriter(fileNameDL, false);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(contentDL);
+            //closes when done
+            bufferedWriter.close();
+
+
+            //debug
+            System.out.println("file written successfully");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
 }
-
-
