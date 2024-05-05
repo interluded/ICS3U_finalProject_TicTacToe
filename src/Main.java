@@ -14,7 +14,7 @@ public class Main {
         boolean keyGenAsk = false;
         int hoster;
         boolean hosterisValid = false;
-        boolean auth = true;
+        boolean auth = false;
         boolean doBrowser = true;
         String linodeHost = "https://marclmao.site";
         String gCloudHost = "https://interluded.tech";
@@ -30,30 +30,26 @@ public class Main {
 
 
         if (keyGenAsk) {
-            System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host, Press 4 if you already have a key you would like to paste in: ");
+            System.out.println("Press 1 for the host, Press 2 if you already have a key you would like to paste in: ");
             hoster = scan.nextInt();
             scan.nextLine();
 
             while (!hosterisValid) {
                 if (hoster == 1) {
-                    url = linodeHost;
-                    hosterisValid = true;
-                } else if (hoster == 2) {
-                    url = gCloudHost;
-                    hosterisValid = true;
-                } else if (hoster == 3) {
                     url = budWareHost;
                     hosterisValid = true;
-                } else if (hoster == 4) {
+                }
+                else if(hoster == 2){
+                    url = null;
                     doBrowser = false;
                     hosterisValid = true;
-                } else {
+                }
+                else {
                     System.out.println("No valid option was submitted");
-                    System.out.println("Press 1 for the Linode host, Press 2 for the Google Cloud host, Press 3 for the Budware host, Press 4 if you already have a key you would like to paste in: ");
+                    System.out.println("Press 1 for the host, Press 2 if you already have a key you would like to paste in: ");
                 }
                 if (!hosterisValid) {
                     hoster = scan.nextInt();
-
                 }
             }
             if (doBrowser) {
