@@ -24,6 +24,7 @@ public class tttGame extends JPanel implements MouseListener {
     boolean valid_move = false;
     String ADtxtContent = "";
 
+    boolean foundWinner = false;
     String DLtxtContent = "";
     Image AD_Small;
     Image NS_Small;
@@ -352,59 +353,76 @@ public class tttGame extends JPanel implements MouseListener {
     // checks for a winner.
     public void checkWinner() {
         // p1 wi
-        if (a == 1 && b == 1 && c == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (d == 1 && e1 == 1 && f == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (g1 == 1 && h == 1 && i == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (g1 == 1 && e1 == 1 && c == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (a == 1 && e1 == 1 && i == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (a == 1 && d == 1 && g1 == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (b == 1 && e1 == 1 && h == 1) {
-            screen = 3;
-            coins = coins + 1;
-        } else if (c == 1 && f == 1 && i == 1) {
-            screen = 3;
-            coins = coins + 1;
-        }
-        // END P1 Win Statements
+
 
         //P2 WINS
         if (a == 2 && b == 2 && c == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (d == 2 && e1 == 2 && f == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (g1 == 2 && h == 2 && i == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (g1 == 2 && e1 == 2 && c == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (a == 2 && e1 == 2 && i == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (a == 2 && d == 2 && g1 == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (b == 2 && e1 == 2 && h == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         } else if (c == 2 && f == 2 && i == 2) {
             screen = 4;
             coins = coins + 1;
+            foundWinner = true;
         }
+        if (a == 1 && b == 1 && c == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (d == 1 && e1 == 1 && f == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (g1 == 1 && h == 1 && i == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (g1 == 1 && e1 == 1 && c == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (a == 1 && e1 == 1 && i == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (a == 1 && d == 1 && g1 == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (b == 1 && e1 == 1 && h == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        } else if (c == 1 && f == 1 && i == 1) {
+            screen = 3;
+            coins = coins + 1;
+            foundWinner = true;
+        }
+        // END P1 Win Statements
 
 
         // END P2 WIN STATEMENTS
@@ -703,7 +721,7 @@ public class tttGame extends JPanel implements MouseListener {
                     computerMove();
                 valid_move = false;
             }
-            if (players == 1 && easy_mode) {
+            if (players == 1 && easy_mode && !foundWinner) {
                 if (a == 1 || b == 1 || c == 1 || d == 1 || e1 == 1 || f == 1 || h == 1 || g1 == 1 || i == 1)
                     easyComputerMove();
                 valid_move = false;
@@ -714,6 +732,7 @@ public class tttGame extends JPanel implements MouseListener {
     public void resetGame() {
         // Resetting game state for a new game
         a = b = c = d = e1 = f = g1 = h = i = 0;
+        foundWinner = false;
         turn = true; // Reset turn to player 1
 
     }
