@@ -15,6 +15,12 @@ import java.util.TimerTask;
         "Convert2Lambda"
 })
 public class tttGame extends JPanel implements MouseListener {
+
+    Image OnePstart;
+    Image TwoPstart;
+
+    Image ShopImage;
+
     boolean valid_move = false;
     String ADtxtContent = "";
 
@@ -27,7 +33,6 @@ public class tttGame extends JPanel implements MouseListener {
     Image background;
     Image xImage;
     Image oImage;
-    int tile = (int)(Math.random() * 9) + 1;
     boolean easy_mode = true;
     int screen = 1;
     int players;
@@ -58,7 +63,11 @@ public class tttGame extends JPanel implements MouseListener {
 
     private Timer timer;
 
+    private Timer timer5Min;
+
     public tttGame() {
+
+
         addMouseListener(this);
         FileToStringReader reader = new FileToStringReader();
         String fileContents = reader.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt");
@@ -74,7 +83,7 @@ public class tttGame extends JPanel implements MouseListener {
         System.out.println(ADtxtContent);
 
         FileToStringReader reader2 = new FileToStringReader();
-        DLtxtContent = reader1.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/DL.txt");
+        DLtxtContent = reader2.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/DL.txt");
         System.out.println("File Contents:");
         System.out.println(DLtxtContent);
 
@@ -108,11 +117,11 @@ public class tttGame extends JPanel implements MouseListener {
 
         // Loads Images
         try {
-            title = ImageIO.read(new File("logo.jpeg"));
+            title = ImageIO.read(new File("logoTRANSPARENT.png"));
             background = ImageIO.read(new File("NS.png"));
             NoStylist = ImageIO.read(new File("NS.png"));
-            xImage = ImageIO.read(new File("travsmall.png"));
-            oImage = ImageIO.read(new File("jupiter.png"));
+            xImage = ImageIO.read(new File("Utopia.png"));
+            oImage = ImageIO.read(new File("liltecca.png"));
             p1Win = ImageIO.read(new File("winner.png"));
             p2Win = ImageIO.read(new File("winner2.png"));
             tieImage = ImageIO.read(new File("tieGame.png"));
@@ -121,6 +130,9 @@ public class tttGame extends JPanel implements MouseListener {
             AmericanDream = ImageIO.read(new File("AD.png"));
             NS_Small = ImageIO.read(new File("NS_Small.png"));
             AD_Small = ImageIO.read(new File("AD_Small.png"));
+            OnePstart = ImageIO.read(new File("p1.png"));
+            TwoPstart = ImageIO.read(new File("p2.png"));
+            ShopImage = ImageIO.read(new File("shop.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +165,18 @@ public class tttGame extends JPanel implements MouseListener {
                 repaint();
             }
         }, 0, 1000); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
+
+
+        //timer for every 5 minutes played for coins.
+        timer5Min = new Timer();
+        timer5Min.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                coins = coins + 5;
+                System.out.println("Coins incremented by 5, total now: " + coins);
+            }
+        }, 300000, 300000);
     }
+
 
     public void paint(Graphics g) {
         if (screen == 1) {
@@ -174,7 +197,7 @@ public class tttGame extends JPanel implements MouseListener {
                 g.fillRoundRect(350, 500, 200, 50, 20, 20);
                 g.setColor(Color.BLACK);
 
-                g.drawString("Select Difficulty:", 360, 530); // Adjust x, y to fit within the button
+                g.drawString("Select Difficulty:", 360, 530); // Adjust x y
 
                 if (easy_mode) {
                     g.drawString("Easy Mode", 450, 530);
@@ -195,13 +218,13 @@ public class tttGame extends JPanel implements MouseListener {
         g.setColor(Color.blue);
         g.fillRoundRect(100, 600, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
-        g.drawString("Earth (P1)", 210, 655);
+        g.drawString("Utopia as Player 1", 210, 655);
 
         //draw 2p button
         g.setColor(Color.RED);
         g.fillRoundRect(500, 600, 300, 100, 20, 20);
         g.setColor(Color.WHITE);
-        g.drawString("Jupiter (P2)", 610, 655);
+        g.drawString("TEC as player 1", 610, 655);
     }
 
     public void shopScreen(Graphics g) {
@@ -226,7 +249,7 @@ public class tttGame extends JPanel implements MouseListener {
 
     }
 
-    //JButton doesnt like showing for some reason, so i decided to put this there as it's not visable.
+    //JButton doesnt like showing for some reason (on mac os), so i decided to put this there as it's not visable.
     public void musicButton(Graphics g) {
         g.fillRoundRect(0, 0, 80, 30, 20, 20);
         g.setColor(Color.BLACK);
@@ -237,25 +260,23 @@ public class tttGame extends JPanel implements MouseListener {
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 300, 200, null);
-
-        //draw 1p button
-        g.setColor(Color.blue);
-        g.fillRoundRect(100, 600, 300, 100, 20, 20);
+        Font font3= new Font("Courier New", 1, 50);
+        g.setFont(font3);
         g.setColor(Color.WHITE);
-        g.drawString("1P START", 210, 655);
+        g.drawString("Rap Tac Toe",300,200);
+        Font myFont2= new Font("Courier New", 1, 10);
+        g.setFont(myFont2);
+        //draw 1p button
+        g.drawImage(OnePstart, 120, 655, null);
 
         // draw shop button
-        g.setColor(Color.GREEN);
-        g.fillRoundRect(300, 750, 300, 100, 20, 20);
-        g.setColor(Color.black);
-        g.drawString("Cosmetics Shop", 350, 800);
-        g.drawString("COINS:" + coins, 350, 780);
+        g.drawImage(ShopImage,350,700,null);
+        g.setColor(Color.white);
+
+        g.drawString("COINS:" + coins, 350, 720);
 
         //draw 2p button
-        g.setColor(Color.RED);
-        g.fillRoundRect(500, 600, 300, 100, 20, 20);
-        g.setColor(Color.WHITE);
-        g.drawString("2P START", 610, 655);
+        g.drawImage(TwoPstart, 610, 655, null);
 
     }
 
@@ -358,10 +379,10 @@ public class tttGame extends JPanel implements MouseListener {
         }
         // END P1 Win Statements
 
-        //P2 WINS: JUPITER
+        //P2 WINS
         if (a == 2 && b == 2 && c == 2) {
             screen = 4;
-            coins = coins + 10;
+            coins = coins + 1;
         } else if (d == 2 && e1 == 2 && f == 2) {
             screen = 4;
             coins = coins + 1;
@@ -384,6 +405,8 @@ public class tttGame extends JPanel implements MouseListener {
             screen = 4;
             coins = coins + 1;
         }
+
+
         // END P2 WIN STATEMENTS
 
         //BEGIN TIE STATEMENTS
@@ -397,7 +420,8 @@ public class tttGame extends JPanel implements MouseListener {
 
     }
 
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+    }
 
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
@@ -433,8 +457,9 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 2;
             } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
                 try {
-                    xImage = ImageIO.read(new File("jupiter.png"));
-                    oImage = ImageIO.read(new File("earth.png"));
+                    xImage = ImageIO.read(new File("liltecca.png"));
+                    oImage = ImageIO.read(new File("Utopia.png"));
+
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -444,7 +469,6 @@ public class tttGame extends JPanel implements MouseListener {
                 // check if the click is within the bounds of the difficulty button
                 if (x >= 350 && x <= 550 && y >= 500 && y <= 550) {
                     easy_mode = !easy_mode; // Toggle the difficulty mode
-                    System.out.println("Difficulty changed to: " + (easy_mode ? "Easy" : "Hard"));
                     repaint(); // Optional: Repaint the screen if you need to visually indicate the change
                 }
             }
@@ -474,7 +498,7 @@ public class tttGame extends JPanel implements MouseListener {
                         System.out.println("Coins changed to: " + coins);
                         repaint();
                         DL_owned = true;  // Mark as owned
-                        fileWriterDL();  // Write ownership to file
+                        fileWriterDL();  // Write owner to file
                     } else {
                         JOptionPane.showMessageDialog(this, "You do not have enough coins!");
                     }
@@ -691,13 +715,25 @@ public class tttGame extends JPanel implements MouseListener {
         // Resetting game state for a new game
         a = b = c = d = e1 = f = g1 = h = i = 0;
         turn = true; // Reset turn to player 1
+
     }
+
 
     public void computerMove() {
 
         if (a == 2 && b == 2 && c == 0) {
             c = 2;
-        } else if (a == 2 && c == 2 && b == 0) {
+        }
+        else if(a == 1 && g1 == 1 && d == 0){
+            d = 2;
+        }
+        else if(c == 1 && i == 1 && f == 0){
+            f = 2;
+        }
+        else if(b == 2 && c == 2 && d == 0 ){
+            f = 2;
+        }
+        else if (a == 2 && c == 2 && b == 0) {
             b = 2;
         } else if (b == 2 && c == 2 && a == 0) {
             a = 2;
