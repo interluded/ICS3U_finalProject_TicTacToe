@@ -1,3 +1,15 @@
 # ICS3U Final project
 
-netplay hopefully coming soon™
+## Features:
+Extensive UI
+
+Player Select Screen
+
+Shop (Persists throughout restarts through writing to different text files)
+
+Togglable Music that loops
+
+A back button to restart the game
+
+Multiple difficulties, including an impossible-to-beat CPU and a pseudo-random player
+
