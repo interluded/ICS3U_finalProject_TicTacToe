@@ -13,3 +13,4 @@ A back button to restart the game
 
 Multiple difficulties, including an impossible-to-beat CPU and a pseudo-random player
 
+Authentication backend, (Its simple, but it works)
