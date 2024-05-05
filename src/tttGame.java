@@ -68,7 +68,6 @@ public class tttGame extends JPanel implements MouseListener {
 
     public tttGame() {
 
-
         addMouseListener(this);
         FileToStringReader reader = new FileToStringReader();
         String fileContents = reader.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/coins.txt");
@@ -76,7 +75,6 @@ public class tttGame extends JPanel implements MouseListener {
         System.out.println(fileContents);
         int coinsMethod = Integer.parseInt(fileContents);
         System.out.println(coinsMethod);
-
 
         FileToStringReader reader1 = new FileToStringReader();
         ADtxtContent = reader1.readFileToString("/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/AD.txt");
@@ -167,7 +165,6 @@ public class tttGame extends JPanel implements MouseListener {
             }
         }, 0, 1000); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
 
-
         //timer for every 5 minutes played for coins.
         timer5Min = new Timer();
         timer5Min.scheduleAtFixedRate(new TimerTask() {
@@ -177,7 +174,6 @@ public class tttGame extends JPanel implements MouseListener {
             }
         }, 300000, 300000);
     }
-
 
     public void paint(Graphics g) {
         if (screen == 1) {
@@ -210,7 +206,7 @@ public class tttGame extends JPanel implements MouseListener {
             shopScreen(g);
         }
     }
-
+    // draws the select player screen
     public void drawSelectPlayer(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 300, 200, null);
@@ -228,6 +224,7 @@ public class tttGame extends JPanel implements MouseListener {
         g.drawString("TEC as player 1", 610, 655);
     }
 
+    // draws the shop screen, doesnt handle any of the transactions
     public void shopScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.setColor(Color.WHITE);
@@ -261,17 +258,17 @@ public class tttGame extends JPanel implements MouseListener {
     public void startScreen(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawImage(title, 300, 200, null);
-        Font font3= new Font("Courier New", 1, 50);
+        Font font3 = new Font("Courier New", 1, 50);
         g.setFont(font3);
         g.setColor(Color.WHITE);
-        g.drawString("Rap Tac Toe",300,200);
-        Font myFont2= new Font("Courier New", 1, 10);
+        g.drawString("Rap Tac Toe", 300, 200);
+        Font myFont2 = new Font("Courier New", 1, 10);
         g.setFont(myFont2);
         //draw 1p button
         g.drawImage(OnePstart, 120, 655, null);
 
         // draw shop button
-        g.drawImage(ShopImage,350,700,null);
+        g.drawImage(ShopImage, 350, 700, null);
         g.setColor(Color.white);
 
         g.drawString("COINS:" + coins, 350, 720);
@@ -354,7 +351,6 @@ public class tttGame extends JPanel implements MouseListener {
     public void checkWinner() {
         // p1 wi
 
-
         //P2 WINS
         if (a == 2 && b == 2 && c == 2) {
             screen = 4;
@@ -424,7 +420,6 @@ public class tttGame extends JPanel implements MouseListener {
         }
         // END P1 Win Statements
 
-
         // END P2 WIN STATEMENTS
 
         //BEGIN TIE STATEMENTS
@@ -437,10 +432,10 @@ public class tttGame extends JPanel implements MouseListener {
         }
 
     }
+    // unused mouseclicked method
+    public void mouseClicked(MouseEvent e) {}
 
-    public void mouseClicked(MouseEvent e) {
-    }
-
+    // this is where  all the mouse movements happen
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
@@ -454,10 +449,10 @@ public class tttGame extends JPanel implements MouseListener {
                 return;
             }
         }
-
+        // handles where you are going depending and where you click
         if (screen == 1) {
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
-                screen = 6;
+                screen = 6; // player select
                 players = 1;
             } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
                 screen = 6;
@@ -475,6 +470,8 @@ public class tttGame extends JPanel implements MouseListener {
                 screen = 2;
             } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
                 try {
+
+                    // swapping around images if TEC button is pressed
                     xImage = ImageIO.read(new File("liltecca.png"));
                     oImage = ImageIO.read(new File("Utopia.png"));
 
@@ -487,7 +484,7 @@ public class tttGame extends JPanel implements MouseListener {
                 // check if the click is within the bounds of the difficulty button
                 if (x >= 350 && x <= 550 && y >= 500 && y <= 550) {
                     easy_mode = !easy_mode; // Toggle the difficulty mode
-                    repaint(); // Optional: Repaint the screen if you need to visually indicate the change
+                    repaint(); // repaint the screen  visually show the change
                 }
             }
         } else if (screen == 7) {
@@ -498,7 +495,7 @@ public class tttGame extends JPanel implements MouseListener {
                     background = AmericanDream;
                     System.out.println("coins changed from " + (coins + 10) + "to " + coins);
                     repaint();
-                    fileWriterAD();
+                    fileWriterAD(); // calls the filewriter to write the AD.txt file
                     AD_owned = true;
                 } else if (AD_owned || ADtxtContent.equalsIgnoreCase("AD_owned")) {
                     background = AmericanDream;
@@ -511,20 +508,20 @@ public class tttGame extends JPanel implements MouseListener {
             if (x >= 500 && x <= 800 && y >= 300 && y <= 618) {
                 if (!DL_owned && !DLtxtContent.equalsIgnoreCase("DL_owned")) {
                     if (coins >= 20) {
-                        coins -= 20;  // Deduct coins
-                        background = DieLit;  // Update background
+                        coins -= 20; // Deduct coins
+                        background = DieLit; // Update background
                         System.out.println("Coins changed to: " + coins);
                         repaint();
-                        DL_owned = true;  // Mark as owned
-                        fileWriterDL();  // Write owner to file
+                        DL_owned = true; // Mark as owned
+                        fileWriterDL(); // Write owner to file
                     } else {
                         JOptionPane.showMessageDialog(this, "You do not have enough coins!");
                     }
                 } else {
-                    background = DieLit;  // Set background if already owned
+                    background = DieLit; // Set background if already owned
                     repaint();
                 }
-
+                // default background setter
             } else if (x >= 300 && x <= 600 && y >= 650 && y <= 750) {
                 background = NoStylist;
                 repaint();
@@ -729,6 +726,7 @@ public class tttGame extends JPanel implements MouseListener {
         }
     }
 
+    //resets the game to defaults
     public void resetGame() {
         // Resetting game state for a new game
         a = b = c = d = e1 = f = g1 = h = i = 0;
@@ -737,22 +735,18 @@ public class tttGame extends JPanel implements MouseListener {
 
     }
 
-
+    // one player non random stratigized mover
     public void computerMove() {
 
         if (a == 2 && b == 2 && c == 0) {
             c = 2;
-        }
-        else if(a == 1 && g1 == 1 && d == 0){
+        } else if (a == 1 && g1 == 1 && d == 0) {
             d = 2;
-        }
-        else if(c == 1 && i == 1 && f == 0){
+        } else if (c == 1 && i == 1 && f == 0) {
             f = 2;
-        }
-        else if(b == 2 && c == 2 && d == 0 ){
+        } else if (b == 2 && c == 2 && d == 0) {
             f = 2;
-        }
-        else if (a == 2 && c == 2 && b == 0) {
+        } else if (a == 2 && c == 2 && b == 0) {
             b = 2;
         } else if (b == 2 && c == 2 && a == 0) {
             a = 2;
@@ -1007,6 +1001,7 @@ public class tttGame extends JPanel implements MouseListener {
         }
     }
 
+    // writes the AD.txt file with "AD_owned" in order to show ownership.
     public void fileWriterAD() {
         // specify the file name (full path needed)
         String fileNameAD = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/AD.txt";
@@ -1019,7 +1014,6 @@ public class tttGame extends JPanel implements MouseListener {
             //closes when done
             bufferedWriter.close();
 
-
             //debug
             System.out.println("file written successfully");
         } catch (IOException e) {
@@ -1027,6 +1021,7 @@ public class tttGame extends JPanel implements MouseListener {
         }
     }
 
+    // writes the DL.txt file with "DL_owned" in order to show ownership
     public void fileWriterDL() {
         // specify the file name (full path needed)
         String fileNameDL = "/Users/marcuskongjika/Downloads/ICS3U_finalProject_TicTacToe/src/DL.txt";
@@ -1038,8 +1033,6 @@ public class tttGame extends JPanel implements MouseListener {
             bufferedWriter.write(contentDL);
             //closes when done
             bufferedWriter.close();
-
-
             //debug
             System.out.println("file written successfully");
         } catch (IOException e) {

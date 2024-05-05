@@ -10,8 +10,6 @@ import java.util.Scanner;
 @SuppressWarnings({ "CallToPrintStackTrace", "deprecation" ,"ConstantValue" })
 public class Main {
     public static void main(String[] args) throws IOException {
-        String os = System.getProperty("os.name");
-        System.out.print(os);
         Scanner scan = new Scanner(System.in);
         boolean keyGenAsk = false;
         int hoster;
@@ -100,7 +98,7 @@ public class Main {
         if (auth) {
             JFrame frame = new JFrame();
             frame.setBounds(0, 0, 900, 900);
-            frame.setTitle("Rap tac toe");
+            frame.setTitle("Rap Tac Toe");
             frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             tttGame game = new tttGame();
