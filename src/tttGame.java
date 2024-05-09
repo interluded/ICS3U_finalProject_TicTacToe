@@ -212,16 +212,16 @@ public class tttGame extends JPanel implements MouseListener {
         g.drawImage(title, 300, 200, null);
 
         //draw 1p button
-        g.setColor(Color.blue);
-        g.fillRoundRect(100, 600, 300, 100, 20, 20);
+        g.setColor(Color.BLUE);
+        g.fillRoundRect(100, 630, 200, 50, 20, 20);
         g.setColor(Color.WHITE);
-        g.drawString("Utopia as Player 1", 210, 655);
+        g.drawString("Utopia as Player 1", 150, 655);
 
         //draw 2p button
-        g.setColor(Color.RED);
-        g.fillRoundRect(500, 600, 300, 100, 20, 20);
+        g.setColor(Color.blue);
+        g.fillRoundRect(550, 630, 200, 50, 20, 20);
         g.setColor(Color.WHITE);
-        g.drawString("TEC as player 1", 610, 655);
+        g.drawString("TEC as player 1", 600, 655);
     }
 
     // draws the shop screen, doesnt handle any of the transactions
@@ -451,23 +451,32 @@ public class tttGame extends JPanel implements MouseListener {
         }
         // handles where you are going depending and where you click
         if (screen == 1) {
-            if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
+            if (x >= 120 && x <= 400 && y >= 655 && y <= 803) {
                 screen = 6; // player select
                 players = 1;
-            } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
+
+               // g.drawImage(OnePstart, 120, 655, null);
+            } else if (x >= 610 && x <= 760 && y >= 655 && y <= 753) {
                 screen = 6;
                 players = 2;
 
+                //         g.drawImage(TwoPstart, 610, 655, null);
+
             } else if (x >= 300 && x <= 600 && y >= 750 && y <= 850) {
                 screen = 7;
-            } else if (x >= 0 && x <= 200 && y >= 400 && y <= 700) {
-                easy_mode = !easy_mode;
-                System.out.println(easy_mode);
             }
 
         } else if (screen == 6) { // Player select screen
             if (x >= 100 && x <= 400 && y >= 600 && y <= 700) {
+
                 screen = 2;
+                try {
+                    xImage = ImageIO.read(new File("Utopia.png"));
+                    oImage = ImageIO.read(new File("liltecca.png"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             } else if (x >= 500 && x <= 800 && y >= 600 && y <= 700) {
                 try {
 
@@ -937,6 +946,7 @@ public class tttGame extends JPanel implements MouseListener {
 
     // draws player one win screen
     public void drawP1Win(Graphics g) {
+        g.drawImage(background,0,0,null);
         g.drawImage(p1Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
@@ -947,6 +957,7 @@ public class tttGame extends JPanel implements MouseListener {
 
     // draws player 2 win screen
     public void drawP2Win(Graphics g) {
+        g.drawImage(background,0,0,null);
         g.drawImage(p2Win, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
@@ -957,6 +968,7 @@ public class tttGame extends JPanel implements MouseListener {
 
     // draws the tie game screen
     public void drawTieGame(Graphics g) {
+        g.drawImage(background,0,0,null);
         g.drawImage(tieImage, 0, 0, null);
         //draw back button
         g.setColor(Color.RED);
