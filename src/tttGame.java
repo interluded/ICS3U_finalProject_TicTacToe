@@ -163,7 +163,7 @@ public class tttGame extends JPanel implements MouseListener {
                 checkWinner();
                 repaint();
             }
-        }, 0, 1000); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
+        }, 0, 100); // 0  delay at the start, 1 second between calls. starts before game starts but its fine it doesnt take up too many resources.
 
         //timer for every 5 minutes played for coins.
         timer5Min = new Timer();
